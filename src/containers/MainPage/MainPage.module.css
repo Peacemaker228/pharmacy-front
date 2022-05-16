@@ -1,0 +1,92 @@
+.mainContainer {
+  max-width: 1050px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.description {
+  max-width: 382px;
+}
+
+.title {
+  font-family: "Jost";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 60px;
+  line-height: 87px;
+  text-align: center;
+  color: #001732;
+  text-align: left;
+  margin: 0;
+}
+
+.textMain {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #001732;
+  margin-bottom: 40px;
+}
+
+.text {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #001732;
+  margin-left: 15px;
+}
+
+.textImage {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+/* .text::before {
+    content: url(../../assets/images/main_page/Локация.png);
+} */
+
+/*  */
+
+.filter {
+  margin-top: 60px;
+}
+
+.filterContainer {
+  text-align: center;
+  max-width: 1050px;
+  margin: 0 auto;
+}
+
+.filterTitle {
+  font-family: "Jost";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 58px;
+  text-align: center;
+  color: #001732;
+}
+
+
+
+/*  */
+
+.card {
+    margin-top: 30px;
+}
+
+.cardContainer {
+    max-width: 1050px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+}

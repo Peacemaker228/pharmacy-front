@@ -1,0 +1,102 @@
+.card {
+  padding: 20px 25px;
+  max-width: 100%;
+  width: 330px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.14);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.btnHeart {
+  cursor: pointer;
+  outline: none;
+  border: none;
+  background: #ffffff;
+  align-self: flex-end;
+  box-sizing: border-box;
+}
+
+.pic {
+  max-width: 100%;
+}
+
+.title {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 21px;
+  color: #000000;
+  margin-top: 10px;
+}
+
+.text {
+  margin-bottom: 5px;
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: #000000;
+}
+
+.dose {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: #959595;
+}
+
+.price {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 28px;
+  color: #000000;
+  margin: 15px 0;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.counter {
+  display: flex;
+  justify-content: space-evenly;
+  margin-left: 20px;
+  box-sizing: border-box;
+  width: 88px;
+  line-height: 33px;
+  border: 1px solid #d0d0d0;
+  border-radius: 100px;
+}
+
+.counterText {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  text-align: center;
+  color: #505050;
+}
+
+.counterBtn {
+  cursor: pointer;
+  outline: none;
+  background: #ffffff;
+  box-sizing: border-box;
+  border: none;
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  color: #505050;
+}

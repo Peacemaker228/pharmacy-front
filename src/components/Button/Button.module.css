@@ -1,0 +1,31 @@
+.btn {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 100px;
+  outline: none;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.auth {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  color: #93b8d9;
+  background: #ffffff;
+  border: 1px solid #abceee;
+  border-radius: 100px;
+}
+
+.reg {
+  border: none;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  color: #ffffff;
+  background: #136eef;
+  border-radius: 100px;
+}
