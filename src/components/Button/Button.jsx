@@ -10,6 +10,7 @@ const Button = ({
   text,
   lineHeight,
   onClick,
+  background,
 }) => {
   return (
     <div>
@@ -24,6 +25,7 @@ const Button = ({
           width: width,
           lineHeight: lineHeight,
           margin: margin,
+          background: background,
         }}
       >
         {isBasket && (
