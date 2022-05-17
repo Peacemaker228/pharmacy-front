@@ -1,5 +1,5 @@
 import React from "react";
-import classNames from "classnames"
+import classNames from "classnames";
 import styles from "../Button/Button.module.css";
 
 const Button = ({
@@ -9,12 +9,16 @@ const Button = ({
   margin,
   text,
   lineHeight,
+  onClick,
 }) => {
   return (
     <div>
       <button
-        
-        className={classNames(styles.btn, text === "Войти" ? styles.auth : styles.reg )}
+        onClick={onClick}
+        className={classNames(
+          styles.btn,
+          text === "Войти" ? styles.auth : styles.reg
+        )}
         type={type}
         style={{
           width: width,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import photo from "../../assets/images/main_page/Фото.png";
@@ -7,13 +7,13 @@ import loc from "../../assets/images/main_page/Локация.png";
 import best from "../../assets/images/main_page/Лучшая.png";
 import head from "../../assets/images/main_page/Наушники.png";
 import Card from "../../components/Card/Card";
-import styles from "../MainPage/MainPage.module.css";
 import Feedback from "../../components/Feedback/Feedback";
 import Button from "../../components/Button/Button";
+import styles from "../MainPage/MainPage.module.css";
 
 const MainPage = () => {
   return (
-    <div>
+    <>
       <Header type="header" />
       <main>
         <div className={styles.mainContainer}>
@@ -139,7 +139,7 @@ const MainPage = () => {
         </div>
       </div>
       <Footer />
-    </div>
+    </>
   );
 };
 
