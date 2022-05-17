@@ -1,0 +1,24 @@
+footer {
+  box-sizing: border-box;
+  background: #2d5185;
+  padding: 19px 0 21px;
+}
+
+.footerContainer {
+  max-width: 1050px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.text {
+  border-top: 1px solid #abceee;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: #ffffff;
+  padding-top: 8px;
+}
+
+footer .active {
+  color: #fff;
+}

@@ -8,11 +8,13 @@ import best from "../../assets/images/main_page/Лучшая.png";
 import head from "../../assets/images/main_page/Наушники.png";
 import Card from "../../components/Card/Card";
 import styles from "../MainPage/MainPage.module.css";
+import Feedback from "../../components/Feedback/Feedback";
+import Button from "../../components/Button/Button";
 
 const MainPage = () => {
   return (
     <div>
-      <Header />
+      <Header type="header" />
       <main>
         <div className={styles.mainContainer}>
           <div className={styles.description}>
@@ -73,7 +75,7 @@ const MainPage = () => {
       </div>
       <div className={styles.about}>
         <div className={styles.aboutContainer}>
-          <h2 className={styles.aboutTitle}>О нас</h2>
+          <h2 className={styles.commonTitle}>О нас</h2>
           <p className={styles.aboutText}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget est
             suscipit varius pellentesque purus sed gravida et mauris. Netus sed
@@ -81,9 +83,62 @@ const MainPage = () => {
             lobortis diam velit pellentesque in nisl. Donec faucibus lacus dui
             turpis ullamcorper lacus risus at.
           </p>
-          <div className={styles.grid}></div>
+          <div className={styles.grid}>
+            <div className={styles.gridContainer}>{/*  */}</div>
+          </div>
         </div>
       </div>
+      <div className={styles.feedback}>
+        <div className={styles.feedbackContainer}>
+          <h2 className={styles.commonTitle}>Отзывы</h2>
+          <div className={styles.feedbackGrid}>
+            <Feedback
+              nickname="hk.123MN"
+              date="12.01.2020"
+              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget est suscipit varius pellentesque purus sed gravida et mauris."
+            />
+            <Feedback
+              nickname="hk.123MN"
+              date="12.01.2020"
+              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget est suscipit varius pellentesque purus sed gravida et mauris."
+            />
+            <Feedback
+              nickname="hk.123MN"
+              date="12.01.2020"
+              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget est suscipit varius pellentesque purus sed gravida et mauris."
+            />
+            <Feedback
+              nickname="hk.123MN"
+              date="12.01.2020"
+              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget est suscipit varius pellentesque purus sed gravida et mauris."
+            />
+            <Feedback
+              nickname="hk.123MN"
+              date="12.01.2020"
+              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget est suscipit varius pellentesque purus sed gravida et mauris."
+            />
+            <Feedback
+              nickname="hk.123MN"
+              date="12.01.2020"
+              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget est suscipit varius pellentesque purus sed gravida et mauris."
+            />
+          </div>
+          <Button
+            type="submit"
+            width="190px"
+            margin="30px 0 0 0"
+            text="Оставить отзыв"
+            lineHeight="40px"
+          />
+        </div>
+      </div>
+      <div className={styles.contacts}>
+        <div className={styles.contactsContainer}>
+          <h2 className={styles.commonTitle}>Контакты</h2>
+          {/*  */}
+        </div>
+      </div>
+      <Footer />
     </div>
   );
 };

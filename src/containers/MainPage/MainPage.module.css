@@ -75,18 +75,84 @@
   color: #001732;
 }
 
-
-
 /*  */
 
 .card {
-    margin-top: 30px;
+  margin-top: 30px;
 }
 
 .cardContainer {
-    max-width: 1050px;
-    margin: 0 auto;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: space-between;
+  max-width: 1050px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+}
+
+/*  */
+
+.about {
+  margin-top: 55px;
+}
+
+.aboutContainer {
+  max-width: 1050px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.commonTitle {
+  font-family: "Jost";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 50px;
+  line-height: 72px;
+  text-align: center;
+  color: #001732;
+}
+
+.aboutText {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 140%;
+  text-align: center;
+  color: #001732;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/*  */
+
+.feedback {
+  margin-top: 60px;
+  box-sizing: border-box;
+}
+
+.feedbackContainer {
+  max-width: 1050px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.feedbackGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 30px;
+}
+
+/*  */
+
+.contacts {
+  margin-top: 60px;
+  box-sizing: border-box;
+}
+
+.contactsContainer {
+  max-width: 1050px;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
