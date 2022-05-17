@@ -123,6 +123,63 @@
   margin: 0 auto;
 }
 
+/* .gridContainer img {
+  max-width: 100%;
+} */
+.grid {
+  margin-top: 30px;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-areas:
+    "one two two three three four four"
+    "five five six six seven seven eight";
+
+  align-items: center;
+  justify-content: center;
+  grid-gap: 0 20px;
+}
+.gridContainer {
+  filter: drop-shadow(0px 4px 10px rgba(6, 77, 141, 0.35));
+}
+
+.one {
+  grid-area: one;
+}
+
+.two {
+  grid-area: two;
+}
+
+.three {
+  margin-top: 100px;
+  grid-area: three;
+}
+
+.four {
+  margin-bottom: 50px;
+  grid-area: four;
+}
+
+.five {
+  margin-bottom: 100px;
+  grid-area: five;
+}
+
+.six {
+  grid-area: six;
+}
+
+.seven {
+  grid-area: seven;
+}
+
+.eight {
+  margin-top: -200px;
+  grid-area: eight;
+}
+
 /*  */
 
 .feedback {

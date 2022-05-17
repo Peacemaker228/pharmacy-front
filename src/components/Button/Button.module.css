@@ -10,6 +10,19 @@
   box-sizing: border-box;
 }
 
+footer .auth {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 100px;
+  outline: none;
+  text-align: center;
+  box-sizing: border-box;
+  background: transparent;
+}
+
 .auth {
   font-weight: 600;
   font-size: 14px;
@@ -28,4 +41,19 @@
   color: #ffffff;
   background: #136eef;
   border-radius: 100px;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn svg {
+  margin-right: 10px;
+  box-sizing: border-box;
+}
+
+.basket {
+  margin-bottom: 0px !important;
 }

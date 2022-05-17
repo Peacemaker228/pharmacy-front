@@ -29,11 +29,12 @@ const Header = ({ type }) => {
           <Logo type={type} />
           <nav className={styles.menu}>
             <ul className={styles.list}>
-              <li className={styles.items}>
+              <li className={classNames(styles.items, styles.catalog)}>
                 <NavLink
                   to=""
                   className={classNames(
                     styles.link,
+
                     type === "header" ? styles.blue : styles.white
                   )}
                 >

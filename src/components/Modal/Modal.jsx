@@ -119,7 +119,7 @@ const RegModal = ({ switchType, closeModal }) => {
           name="password"
           rules={[{ required: true, message: "Введите пароль" }]}
         >
-          <Input.Password placeholder="Проль" className={styles.modalInput} />
+          <Input.Password placeholder="Пароль" className={styles.modalInput} />
         </Form.Item>
         <Form.Item
           name="confirm"

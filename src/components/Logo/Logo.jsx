@@ -14,8 +14,8 @@ const Logo = ({ type }) => {
         )}
       >
         <svg
-          width="163"
-          height="60"
+          width={type === "footer" ? "226" : "163"}
+          height={type === "footer" ? "80" : "60"}
           viewBox="0 0 163 60"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
