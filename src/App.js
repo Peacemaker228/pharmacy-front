@@ -7,11 +7,10 @@ import AddToCart from "./containers/AddToCart/AddToCart";
 import Edit from "./containers/Edit/Edit";
 import Catalog from "./containers/Catalog/Catalog";
 import Favourites from "./containers/Favourites/Favourites";
-import Order from "./containers/Order/Order";
+import MyOrder from "./containers/MyOrder/MyOrder";
 import OrderMaking from "./containers/OrderMaking/OrderMaking";
 import Product from "./containers/Product/Product";
 import Admin from "./containers/Admin/Admin";
-import AuthRouter from "./router/AuthRouter";
 import ModalCustom from "./components/Modal/Modal";
 import "antd/dist/antd.css";
 import "./App.css";
@@ -21,17 +20,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          {/* <Route
-            path="/"
-            element={
-              <AuthRouter 
-              // еба ть пиздэц
-                component={<ModalCustom type="auth" visible="visible" />}
-              />
-            }
-          /> */}
-
-          <Route path="/pharmadon" element={<MainPage />} />
+          <Route path="/" element={<MainPage />} />
           <Route
             path="/account"
             element={<PrivateRoute component={<Account />} />}
@@ -50,8 +39,8 @@ function App() {
             element={<PrivateRoute component={<Favourites />} />}
           />
           <Route
-            path="/order"
-            element={<PrivateRoute component={<Order />} />}
+            path="/myorder"
+            element={<PrivateRoute component={<MyOrder />} />}
           />
           <Route
             path="/ordermaking"

@@ -1,5 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import { NavHashLink } from "react-router-hash-link";
 import ModalCustom from "../../components/Modal/Modal";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
@@ -20,16 +21,33 @@ import Card from "../../components/Card/Card";
 import Feedback from "../../components/Feedback/Feedback";
 import Button from "../../components/Button/Button";
 import styles from "../MainPage/MainPage.module.css";
+import { getFeedbackList } from "../../services/Feedback/getFeedbackList";
 
 const MainPage = () => {
-  // const { isAuth } = useSelector(AuthSelector);
+  const { isAuth } = useSelector((state) => state.auth);
   const [modalType, setModalType] = useState("");
   const [visible, setVisible] = useState(false);
+  const [current, setCurrent] = useState(1);
+  const [cards, setCards] = useState([]);
+
+  const getFeedbacks = async () => {
+    const { data } = await getFeedbackList(current);
+
+    setCards(data.records);
+  };
+
+  useEffect(() => {
+    getFeedbacks();
+  }, []);
+
   // const navigate = useNavigate();
 
   return (
     <>
       <Header type="header" />
+      {/* <NavHashLink smooth to="/">
+        OPOPOPOPOPOPOP
+      </NavHashLink> */}
       <main>
         <div className={styles.mainContainer}>
           <div className={styles.description}>
@@ -116,40 +134,14 @@ const MainPage = () => {
         <div className={styles.feedbackContainer}>
           <h2 className={styles.commonTitle}>Отзывы</h2>
           <div className={styles.feedbackGrid}>
-            <Feedback
-              nickname="hk.123MN"
-              date="12.01.2020"
-              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget est suscipit varius pellentesque purus sed gravida et mauris."
-            />
-            <Feedback
-              nickname="hk.123MN"
-              date="12.01.2020"
-              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget est suscipit varius pellentesque purus sed gravida et mauris."
-            />
-            <Feedback
-              nickname="hk.123MN"
-              date="12.01.2020"
-              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget est suscipit varius pellentesque purus sed gravida et mauris."
-            />
-            <Feedback
-              nickname="hk.123MN"
-              date="12.01.2020"
-              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget est suscipit varius pellentesque purus sed gravida et mauris."
-            />
-            <Feedback
-              nickname="hk.123MN"
-              date="12.01.2020"
-              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget est suscipit varius pellentesque purus sed gravida et mauris."
-            />
-            <Feedback
-              nickname="hk.123MN"
-              date="12.01.2020"
-              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget est suscipit varius pellentesque purus sed gravida et mauris."
-            />
+            {cards.map((el) => (
+              <Feedback text={el.Title} date={el.created} nickname={el.Login} />
+            ))}
           </div>
           <Button
             onClick={() => {
-              // setModalType(isAuth ? "feedback" : "auth");
+              //
+              setModalType(isAuth ? "feedback" : "auth");
               setVisible(true);
             }}
             type="submit"

@@ -7,7 +7,7 @@ export const ACCESS_TOKEN = "access_token";
 
 // export const baseHost = window.location.host;
 
-export const baseHost = "192.168.1.147:8082";
+export const baseHost = "192.168.1.151:8082";
 // export const baseHost = "192.168.1.146:8080";
 
 export const axiosInstance = axios.create({

@@ -1,13 +1,16 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Form, Input, message, Modal, notification, Typography } from "antd";
 import Button from "../Button/Button";
-import styles from "./Modal.module.css";
+import stars from "../../assets/images/modal/stars.png";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Login,
   Registration,
   resetNotificationConfig,
 } from "../../store/reducers/AuthReducer";
+import styles from "./Modal.module.css";
+import { createFeedback } from "../../services/Feedback/createFeedback";
+import moment from "moment";
 
 const AuthModal = ({ switchType, closeModal }) => {
   const { errorLogin, errorStatus, loginSuccess } = useSelector(
@@ -158,16 +161,42 @@ const RegModal = ({ switchType, closeModal }) => {
   );
 };
 
-const FeedbackModal = () => {
+const FeedbackModal = ({ switchType, closeModal }) => {
+  const onFinish = (values) => {
+    delete values["login"];
+    values.created = moment();
+    createFeedback(values)
+      .then((res) => {
+        switchType("thanks");
+        setTimeout(() => {
+          closeModal();
+        }, 1000);
+      })
+      .catch(() => {
+        message.error("Произошла ошибка!");
+      });
+  };
+
   return (
     <div className={styles.modal}>
       <h3 className={styles.modalTitle}>Оставить отзыв</h3>
-      <Form>
+      <Form onFinish={onFinish}>
         <Form.Item name="login">
           <Input placeholder="Логин" className={styles.modalInput} />
         </Form.Item>
-        <Form.Item name="title">
-          <Input.TextArea placeholder="Введите текст" />
+        <Form.Item
+          name="title"
+          rules={[
+            {
+              required: true,
+              message: "Введите сообщение",
+            },
+          ]}
+        >
+          <Input.TextArea
+            placeholder="Введите текст"
+            className={styles.textArea}
+          />
         </Form.Item>
 
         <Form.Item>
@@ -183,6 +212,19 @@ const FeedbackModal = () => {
   );
 };
 
+const ThanksModal = () => {
+  return (
+    <div className={styles.modalThanks}>
+      <h3 className={styles.modalTitle}>Спасибо за Ваш отзыв!</h3>
+      <img src={stars} alt="stars" />
+      <p>
+        Мы заботимся о наших клиентах, а также о качестве предоставляемых нами
+        услуг.
+      </p>
+    </div>
+  );
+};
+
 const ModalCustom = ({ visible, type, switchType, onCancel, closeModal }) => {
   const content = () => {
     switch (type) {
@@ -191,7 +233,11 @@ const ModalCustom = ({ visible, type, switchType, onCancel, closeModal }) => {
       case "reg":
         return <RegModal switchType={switchType} closeModal={closeModal} />;
       case "feedback":
-        return <FeedbackModal />;
+        return (
+          <FeedbackModal switchType={switchType} closeModal={closeModal} />
+        );
+      case "thanks":
+        return <ThanksModal />;
       default:
         return;
     }

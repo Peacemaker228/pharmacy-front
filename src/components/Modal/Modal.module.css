@@ -39,6 +39,39 @@
   margin-top: 15px;
 }
 
+.textArea {
+  resize: none;
+  background: #ffffff;
+  border: 1px solid #93b8d9;
+  border-radius: 14px !important;
+  min-height: 169px !important;
+}
+
 .modalText:hover {
   color: #136eef;
+}
+
+.modalThanks {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 54px 37px;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalThanks p {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 23px;
+  text-align: center;
+  color: #001732;
+  margin-bottom: 0;
+  margin-top: 30px;
+}
+
+.modalThanks img {
+  margin-top: 15px;
 }

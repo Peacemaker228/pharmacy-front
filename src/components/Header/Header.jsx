@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../services/User/getUser";
 import Logo from "../Logo/Logo";
 import Button from "../Button/Button";
 import classNames from "classnames";
 import ModalCustom from "../Modal/Modal";
 import styles from "../../components/Header/Header.module.css";
+import { logOut } from "../../store/reducers/AuthReducer";
 
 const Header = ({ type }) => {
   const [modalType, setModalType] = useState("");
@@ -14,6 +15,7 @@ const Header = ({ type }) => {
   const { isAuth } = useSelector((state) => state.auth);
   const [userName, setUserName] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (isAuth) {
@@ -22,6 +24,11 @@ const Header = ({ type }) => {
       });
     }
   }, [isAuth]);
+
+  const exit = () => {
+    dispatch(logOut());
+    navigate("/");
+  };
 
   return (
     <>
@@ -176,7 +183,7 @@ const Header = ({ type }) => {
                     />
                   </svg>
                   <svg
-                    onClick={() => navigate("/")}
+                    onClick={exit}
                     className={styles.nickSvg}
                     width="31"
                     height="25"
@@ -202,7 +209,7 @@ const Header = ({ type }) => {
                       d="M11.8719 24.247V24.25H12.1219C16.7639 24.25 20.9213 21.365 22.6859 16.9707L22.687 16.9679C22.8771 16.4775 22.6464 15.8851 22.1531 15.6819L22.1531 15.6819C21.6622 15.4797 21.0841 15.7303 20.8896 16.229C19.4138 19.8839 15.9755 22.266 12.122 22.266C6.90299 22.266 2.65197 17.8962 2.65197 12.4999C2.65197 7.10346 6.90318 2.73391 12.122 2.73391C15.9752 2.73391 19.4135 5.11561 20.8894 8.8077C21.0837 9.30664 21.6623 9.55739 22.1531 9.35521C22.6464 9.15209 22.8772 8.55929 22.687 8.06917L22.6862 8.06713C20.9219 3.63553 16.7643 0.75 12.1219 0.75C5.8207 0.75 0.711914 6.02545 0.711914 12.4999C0.711914 18.8885 5.68625 24.1097 11.8719 24.247Z"
                       fill="#001732"
                       stroke="#001732"
-                      stroke-width="0.5"
+                      strokeWidth="0.5"
                     />
                   </svg>
                 </div>

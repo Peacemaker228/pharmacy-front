@@ -48,6 +48,11 @@ const AuthReducer = createSlice({
     logOut: (state) => {
       state.isAuth = false;
       localStorage.removeItem(ACCESS_TOKEN);
+      state.message = "";
+      state.type = "info";
+      state.errorLogin = false;
+      state.errorStatus = 0;
+      state.loginSuccess = false;
     },
   },
   extraReducers: {
