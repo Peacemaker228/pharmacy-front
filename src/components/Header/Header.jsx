@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { getUser } from "../../services/User/getUser";
 import Logo from "../Logo/Logo";
-import styles from "../../components/Header/Header.module.css";
 import Button from "../Button/Button";
 import classNames from "classnames";
 import ModalCustom from "../Modal/Modal";
-import { useSelector } from "react-redux";
-import { getUser } from "../../services/User/getUser";
+import styles from "../../components/Header/Header.module.css";
 
 const Header = ({ type }) => {
   const [modalType, setModalType] = useState("");
   const [visible, setVisible] = useState(false);
   const { isAuth } = useSelector((state) => state.auth);
   const [userName, setUserName] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isAuth) {
@@ -29,9 +30,14 @@ const Header = ({ type }) => {
           <Logo type={type} />
           <nav className={styles.menu}>
             <ul className={styles.list}>
-              <li className={classNames(styles.items, styles.catalog)}>
+              <li
+                className={classNames(
+                  styles.items,
+                  type === "header" && styles.catalog
+                )}
+              >
                 <NavLink
-                  to=""
+                  to="/catalog"
                   className={classNames(
                     styles.link,
 
@@ -80,7 +86,7 @@ const Header = ({ type }) => {
             <nav className={styles.profile}>
               <ul className={styles.profileList}>
                 <li className={styles.profileItems}>
-                  <NavLink to="" className={styles.profileLink}>
+                  <NavLink to="/favourites" className={styles.profileLink}>
                     <svg
                       width="19"
                       height="17"
@@ -96,7 +102,7 @@ const Header = ({ type }) => {
                   </NavLink>
                 </li>
                 <li className={styles.profileItems}>
-                  <NavLink to="" className={styles.profileLink}>
+                  <NavLink to="/cart" className={styles.profileLink}>
                     <svg
                       width="24"
                       height="24"
@@ -140,7 +146,67 @@ const Header = ({ type }) => {
                 />
               </>
             ) : (
-              <p>{userName}</p>
+              <>
+                <div className={styles.account}>
+                  <NavLink
+                    to="/account"
+                    className={classNames(
+                      styles.nickname,
+                      type === "header" ? styles.blue : styles.white
+                    )}
+                  >
+                    polzovatel_135
+                  </NavLink>
+                  <svg
+                    onClick={() => navigate("/account")}
+                    className={styles.nickSvg}
+                    width="26"
+                    height="26"
+                    viewBox="0 0 26 26"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      className={
+                        type === "header"
+                          ? styles.blueSvgFirst
+                          : styles.whiteSvgFirst
+                      }
+                      d="M13 0.5C11.3585 0.5 9.73303 0.823322 8.21646 1.45151C6.69989 2.07969 5.3219 3.00043 4.16117 4.16117C1.81696 6.50537 0.5 9.68479 0.5 13C0.5 16.3152 1.81696 19.4946 4.16117 21.8388C5.3219 22.9996 6.69989 23.9203 8.21646 24.5485C9.73303 25.1767 11.3585 25.5 13 25.5C16.3152 25.5 19.4946 24.183 21.8388 21.8388C24.183 19.4946 25.5 16.3152 25.5 13C25.5 11.3585 25.1767 9.73303 24.5485 8.21646C23.9203 6.69989 22.9996 5.3219 21.8388 4.16117C20.6781 3.00043 19.3001 2.07969 17.7835 1.45151C16.267 0.823322 14.6415 0.5 13 0.5V0.5ZM6.8375 20.85C7.375 19.725 10.65 18.625 13 18.625C15.35 18.625 18.625 19.725 19.1625 20.85C17.4625 22.2 15.325 23 13 23C10.675 23 8.5375 22.2 6.8375 20.85ZM20.95 19.0375C19.1625 16.8625 14.825 16.125 13 16.125C11.175 16.125 6.8375 16.8625 5.05 19.0375C3.775 17.375 3 15.275 3 13C3 7.4875 7.4875 3 13 3C18.5125 3 23 7.4875 23 13C23 15.275 22.225 17.375 20.95 19.0375ZM13 5.5C10.575 5.5 8.625 7.45 8.625 9.875C8.625 12.3 10.575 14.25 13 14.25C15.425 14.25 17.375 12.3 17.375 9.875C17.375 7.45 15.425 5.5 13 5.5ZM13 11.75C12.5027 11.75 12.0258 11.5525 11.6742 11.2008C11.3225 10.8492 11.125 10.3723 11.125 9.875C11.125 9.37772 11.3225 8.90081 11.6742 8.54917C12.0258 8.19754 12.5027 8 13 8C13.4973 8 13.9742 8.19754 14.3258 8.54917C14.6775 8.90081 14.875 9.37772 14.875 9.875C14.875 10.3723 14.6775 10.8492 14.3258 11.2008C13.9742 11.5525 13.4973 11.75 13 11.75Z"
+                    />
+                  </svg>
+                  <svg
+                    onClick={() => navigate("/")}
+                    className={styles.nickSvg}
+                    width="31"
+                    height="25"
+                    viewBox="0 0 31 25"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      className={
+                        type === "header"
+                          ? styles.blueSvgSec
+                          : styles.whiteSvgSec
+                      }
+                      d="M25.501 6.69341C25.2079 6.40829 24.6641 6.37274 24.3292 6.62207C23.9943 6.87165 23.9526 7.33474 24.2454 7.61989L28.3049 11.6469H15.917C15.4566 11.6469 15.0801 11.9675 15.0801 12.3595C15.0801 12.7515 15.4567 13.0722 15.917 13.0722H28.3049L24.2454 17.0992C23.9523 17.3843 23.9943 17.8477 24.3292 18.097C24.4965 18.2039 24.664 18.2752 24.8733 18.2752C25.1244 18.2752 25.3337 18.2039 25.501 18.0257L30.7741 12.8226C31.0252 12.5375 31.0252 12.1455 30.7741 11.8961L25.501 6.69341Z"
+                      fill="#001732"
+                    />
+                    <path
+                      className={
+                        type === "header"
+                          ? styles.blueSvgSec
+                          : styles.whiteSvgSec
+                      }
+                      d="M11.8719 24.247V24.25H12.1219C16.7639 24.25 20.9213 21.365 22.6859 16.9707L22.687 16.9679C22.8771 16.4775 22.6464 15.8851 22.1531 15.6819L22.1531 15.6819C21.6622 15.4797 21.0841 15.7303 20.8896 16.229C19.4138 19.8839 15.9755 22.266 12.122 22.266C6.90299 22.266 2.65197 17.8962 2.65197 12.4999C2.65197 7.10346 6.90318 2.73391 12.122 2.73391C15.9752 2.73391 19.4135 5.11561 20.8894 8.8077C21.0837 9.30664 21.6623 9.55739 22.1531 9.35521C22.6464 9.15209 22.8772 8.55929 22.687 8.06917L22.6862 8.06713C20.9219 3.63553 16.7643 0.75 12.1219 0.75C5.8207 0.75 0.711914 6.02545 0.711914 12.4999C0.711914 18.8885 5.68625 24.1097 11.8719 24.247Z"
+                      fill="#001732"
+                      stroke="#001732"
+                      stroke-width="0.5"
+                    />
+                  </svg>
+                </div>
+              </>
             )}
           </div>
         </div>

@@ -1,0 +1,200 @@
+/* main */
+
+.productContainer {
+  max-width: 1050px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.picMain {
+  max-width: 100%;
+}
+
+.description {
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.title {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 35px;
+  color: #001732;
+}
+
+.dose {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 21px;
+  color: #001732;
+  margin-bottom: 18px;
+}
+
+.text {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: #959595;
+}
+
+.text:nth-of-type(-n + 2) span {
+  color: #136eef;
+}
+
+.text:nth-of-type(n + 3) span {
+  color: #001732;
+}
+
+.btnHeart {
+  margin-top: 8px;
+  margin-left: -40px;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  background: #ffffff;
+  align-self: flex-end;
+  box-sizing: border-box;
+  /* transition: 0.3s; */
+  align-self: flex-start;
+}
+
+.btnHeart:focus svg path {
+  stroke: red;
+  fill: red;
+}
+
+.buy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.price {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 40px;
+  line-height: 47px;
+  color: #001732;
+  margin-bottom: 15px;
+}
+
+.counter {
+  display: flex;
+  justify-content: space-evenly;
+  box-sizing: border-box;
+  width: 90px;
+  line-height: 35px;
+  border: 1px solid #d0d0d0;
+  border-radius: 100px;
+}
+
+.counterText {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 21px;
+  text-align: center;
+  color: #505050;
+}
+
+.counterBtn {
+  cursor: pointer;
+  outline: none;
+  background: #ffffff;
+  box-sizing: border-box;
+  border: none;
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 19px;
+  text-align: center;
+  color: #505050;
+}
+
+.available {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  text-decoration-line: underline;
+  color: #959595;
+}
+
+/*  */
+
+/* main */
+
+.main {
+  margin-top: 60px;
+}
+
+.mainContainer {
+  max-width: 1050px;
+  margin: 0 auto;
+}
+
+.mainTitle {
+  font-family: "Jost";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 58px;
+  color: #001732;
+  margin-top: 30px;
+}
+
+.mainText {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 140%;
+  color: #001732;
+}
+
+.mainText span {
+  color: #959595;
+}
+
+.farmList {
+  list-style-type: none;
+}
+
+.course {
+  max-width: 540px;
+}
+
+/*  */
+
+/* analog */
+
+.analog {
+  margin-top: 25px;
+}
+
+.analogContainer {
+  max-width: 1050px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.analogCard {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}

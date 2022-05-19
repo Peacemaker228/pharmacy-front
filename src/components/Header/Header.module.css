@@ -51,7 +51,7 @@
 }
 
 .blue {
-  color: #001732 !important;
+  color: #001732;
 }
 
 .white {
@@ -78,4 +78,65 @@
 
 .buttons {
   display: flex;
+}
+
+.account {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.nickname {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  margin: 0;
+}
+
+.nickname:hover {
+  color: #136eef;
+}
+
+.account svg:first-of-type {
+  margin-left: 18px;
+}
+.account svg:last-of-type {
+  margin-left: 15px;
+}
+
+.account svg {
+  cursor: pointer;
+  /* ne rab */
+  transition: 0.3s;
+}
+
+.account svg:first-of-type:hover path {
+  fill: #136eef;
+}
+
+.account svg:last-of-type:hover path {
+  stroke: #136eef;
+  fill: #136eef;
+}
+
+.blueSvgFirst {
+  fill: #001732;
+}
+
+.whiteSvgFirst {
+  fill: #fff;
+}
+
+.blueSvgSec {
+  stroke: #001732;
+  fill: #001732;
+}
+
+.whiteSvgSec {
+  stroke: #ffffff;
+  fill: #fff;
 }

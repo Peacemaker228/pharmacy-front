@@ -54,6 +54,10 @@ footer .auth {
   box-sizing: border-box;
 }
 
+.buy .btn {
+  font-size: 50px;  
+}
+
 .basket {
   margin-bottom: 0px !important;
 }

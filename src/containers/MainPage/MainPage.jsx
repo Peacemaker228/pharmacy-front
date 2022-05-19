@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import ModalCustom from "../../components/Modal/Modal";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import photo from "../../assets/images/main_page/Фото.png";
@@ -20,6 +22,11 @@ import Button from "../../components/Button/Button";
 import styles from "../MainPage/MainPage.module.css";
 
 const MainPage = () => {
+  // const { isAuth } = useSelector(AuthSelector);
+  const [modalType, setModalType] = useState("");
+  const [visible, setVisible] = useState(false);
+  // const navigate = useNavigate();
+
   return (
     <>
       <Header type="header" />
@@ -61,21 +68,21 @@ const MainPage = () => {
           <Card
             pic={anaferon}
             title="Название препарата 1"
-            text="Название препарата 1"
+            text="Краткое описание товара Lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
             span="100 мг, 10 таб"
             price="280,90 ₽"
           />
           <Card
             pic={anaferon}
             title="Название препарата 1"
-            text="Название препарата 1"
+            text="Краткое описание товара Lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
             span="100 мг, 10 таб"
             price="280,90 ₽"
           />
           <Card
             pic={anaferon}
             title="Название препарата 1"
-            text="Название препарата 1"
+            text="Краткое описание товара Lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
             span="100 мг, 10 таб"
             price="280,90 ₽"
           />
@@ -141,6 +148,10 @@ const MainPage = () => {
             />
           </div>
           <Button
+            onClick={() => {
+              // setModalType(isAuth ? "feedback" : "auth");
+              setVisible(true);
+            }}
             type="submit"
             width="190px"
             margin="30px 0 0 0"
@@ -155,6 +166,20 @@ const MainPage = () => {
           {/*  */}
         </div>
       </div>
+      <ModalCustom
+        closeModal={() => {
+          setModalType("");
+          setVisible(false);
+        }}
+        visible={visible}
+        type={modalType}
+        switchType={setModalType}
+        onCancel={() => {
+          setModalType("");
+          setVisible(false);
+        }}
+      />
+
       <Footer />
     </>
   );
