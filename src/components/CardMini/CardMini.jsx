@@ -3,15 +3,17 @@ import { useNavigate } from "react-router-dom";
 import styles from "./CardMini.module.css";
 
 const CardMini = ({ pic, title, dose, text, count, status, price, date }) => {
+  const navigate = useNavigate();
+
   return (
     <div className={styles.cardMiniContainer}>
       <div className={styles.main}>
         <div className={styles.left}>
-          <h3>{title}</h3>
+          <h3 onClick={() => navigate("/product")}>{title}</h3>
           <span>{dose}</span>
         </div>
         <div className={styles.right}>
-          <img src={pic} alt="" />
+          <img onClick={() => navigate("/product")} src={pic} alt="" />
         </div>
       </div>
       <div className={styles.about}>

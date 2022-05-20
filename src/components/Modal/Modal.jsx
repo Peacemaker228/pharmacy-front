@@ -2,15 +2,16 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Form, Input, message, Modal, notification, Typography } from "antd";
 import Button from "../Button/Button";
 import stars from "../../assets/images/modal/stars.png";
+import status from "../../assets/images/status/status_wom.png";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Login,
   Registration,
   resetNotificationConfig,
 } from "../../store/reducers/AuthReducer";
-import styles from "./Modal.module.css";
 import { createFeedback } from "../../services/Feedback/createFeedback";
 import moment from "moment";
+import styles from "./Modal.module.css";
 
 const AuthModal = ({ switchType, closeModal }) => {
   const { errorLogin, errorStatus, loginSuccess } = useSelector(
@@ -225,6 +226,19 @@ const ThanksModal = () => {
   );
 };
 
+const OrderStatus = () => {
+  return (
+    <div className={styles.modalStatus}>
+      <h2 className={styles.statusTitle}>Спасибо за Ваш отзыв!</h2>
+      <img src={status} alt="woman" />
+      <p>Номер Вашего заказа 12345</p>
+      <p>
+        Менеджер свяжется с Вами в течение 15-ти минут для подтверждения заказа.
+      </p>
+    </div>
+  );
+};
+
 const ModalCustom = ({ visible, type, switchType, onCancel, closeModal }) => {
   const content = () => {
     switch (type) {
@@ -238,6 +252,8 @@ const ModalCustom = ({ visible, type, switchType, onCancel, closeModal }) => {
         );
       case "thanks":
         return <ThanksModal />;
+      case "status":
+        return <OrderStatus />;
       default:
         return;
     }

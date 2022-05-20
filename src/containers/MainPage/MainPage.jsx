@@ -44,7 +44,6 @@ const MainPage = () => {
 
   return (
     <>
-      <Header type="header" />
       {/* <NavHashLink smooth to="/">
         OPOPOPOPOPOPOP
       </NavHashLink> */}
@@ -84,6 +83,10 @@ const MainPage = () => {
       <div className={styles.card}>
         <div className={styles.cardContainer}>
           <Card
+            onClick={() => {
+              setModalType(!isAuth && "auth");
+              setVisible(!isAuth && true);
+            }}
             pic={anaferon}
             title="Название препарата 1"
             text="Краткое описание товара Lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
@@ -91,6 +94,10 @@ const MainPage = () => {
             price="280,90 ₽"
           />
           <Card
+            onClick={() => {
+              setModalType(!isAuth && "auth");
+              setVisible(!isAuth && true);
+            }}
             pic={anaferon}
             title="Название препарата 1"
             text="Краткое описание товара Lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
@@ -98,6 +105,10 @@ const MainPage = () => {
             price="280,90 ₽"
           />
           <Card
+            onClick={() => {
+              setModalType(!isAuth && "auth");
+              setVisible(!isAuth && true);
+            }}
             pic={anaferon}
             title="Название препарата 1"
             text="Краткое описание товара Lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
@@ -159,6 +170,7 @@ const MainPage = () => {
         </div>
       </div>
       <ModalCustom
+        getFeedbacks={getFeedbacks}
         closeModal={() => {
           setModalType("");
           setVisible(false);
@@ -171,8 +183,6 @@ const MainPage = () => {
           setVisible(false);
         }}
       />
-
-      <Footer />
     </>
   );
 };

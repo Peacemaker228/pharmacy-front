@@ -6,10 +6,16 @@ import Card from "../../components/Card/Card";
 import pic1 from "../../assets/images/product/teva.png";
 import pic2 from "../../assets/images/product/klaritin.png";
 import pic3 from "../../assets/images/product/erius.png";
+import ModalCustom from "../../components/Modal/Modal";
+import { useSelector } from "react-redux";
 import styles from "./Product.module.css";
 
 const Product = () => {
   const [count, setCount] = useState(0);
+  const [visible, setVisible] = useState(false);
+  const [modalType, setModalType] = useState("");
+  const { isAuth } = useSelector((state) => state.auth);
+
   const navigate = useNavigate();
 
   return (
@@ -72,10 +78,10 @@ const Product = () => {
               </button>
             </div>
             <Button
-              // onClick={() => {
-              //   setModalType(isAuth ? "feedback" : "auth");
-              //   setVisible(true);
-              // }}
+              onClick={() => {
+                setModalType(!isAuth && "auth");
+                setVisible(!isAuth && true);
+              }}
               margin="20px 0 20px 0"
               isBasket="true"
               type="submit"
@@ -190,36 +196,19 @@ const Product = () => {
           </div>
         </div>
       </div>
-      <div className={styles.analog}>
-        <div className={styles.analogContainer}>
-          <h2 className={styles.mainTitle}>
-            Аналоги препарата Лоратадин-Вертекс
-          </h2>
-          <div className={styles.analogCard}>
-            <Card
-              pic={pic1}
-              title="Название препарата 1"
-              text="Краткое описание товара Lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-              span="100 мг, 10 таб"
-              price="280,90 ₽"
-            />
-            <Card
-              pic={pic1}
-              title="Название препарата 1"
-              text="Краткое описание товара Lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-              span="100 мг, 10 таб"
-              price="280,90 ₽"
-            />
-            <Card
-              pic={pic1}
-              title="Название препарата 1"
-              text="Краткое описание товара Lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-              span="100 мг, 10 таб"
-              price="280,90 ₽"
-            />
-          </div>
-        </div>
-      </div>
+      <ModalCustom
+        closeModal={() => {
+          setModalType("");
+          setVisible(false);
+        }}
+        visible={visible}
+        type={modalType}
+        switchType={setModalType}
+        onCancel={() => {
+          setModalType("");
+          setVisible(false);
+        }}
+      />
     </>
   );
 };

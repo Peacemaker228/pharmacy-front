@@ -37,6 +37,7 @@
 }
 
 .text {
+  max-width: 252px;
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
@@ -44,4 +45,5 @@
   line-height: 19px;
   color: #001732;
   margin-bottom: 0;
+  white-space: pre-line;
 }

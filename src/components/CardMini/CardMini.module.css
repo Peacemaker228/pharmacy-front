@@ -21,6 +21,10 @@ h3 {
   flex-direction: column;
 }
 
+.right {
+  cursor: pointer;
+}
+
 .left h3 {
   font-family: "Raleway";
   font-style: normal;
@@ -28,6 +32,7 @@ h3 {
   font-size: 18px;
   line-height: 21px;
   color: #000000;
+  cursor: pointer;
 }
 
 .left span {

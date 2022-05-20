@@ -1,0 +1,27 @@
+.admin > img {
+  display: block;
+  max-width: 940px;
+  margin: 0 auto;
+}
+
+.adminContainer {
+  max-width: 1050px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 30px;
+  /* background: url(../../assets/images/admin/admin_back.png) no-repeat; */
+}
+
+.adminContainer h2 {
+  font-family: "Jost";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 58px;
+  color: #001732;
+  align-self: flex-start;
+  margin-bottom: 0;
+}

@@ -11,7 +11,8 @@ import MyOrder from "./containers/MyOrder/MyOrder";
 import OrderMaking from "./containers/OrderMaking/OrderMaking";
 import Product from "./containers/Product/Product";
 import Admin from "./containers/Admin/Admin";
-import ModalCustom from "./components/Modal/Modal";
+import AdminRoute from "./router/AdminRoute";
+import PublicRoute from "./router/PublicRoute";
 import "antd/dist/antd.css";
 import "./App.css";
 
@@ -20,7 +21,9 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<MainPage />} />
+          <Route path="/" element={<PublicRoute component={<MainPage />} />} />
+          {/* <Route path="/" element={<MainPage />} /> */}
+
           <Route
             path="/account"
             element={<PrivateRoute component={<Account />} />}
@@ -31,7 +34,7 @@ function App() {
           />
           <Route
             path="/catalog"
-            element={<PrivateRoute component={<Catalog />} />}
+            element={<PublicRoute component={<Catalog />} />}
           />
           <Route path="/edit" element={<PrivateRoute component={<Edit />} />} />
           <Route
@@ -48,13 +51,10 @@ function App() {
           />
           <Route
             path="/product"
-            element={<PrivateRoute component={<Product />} />}
+            element={<PublicRoute component={<Product />} />}
           />
-          <Route
-            path="/admin"
-            element={<PrivateRoute component={<Admin />} />}
-          />
-          <Route path="*" element={""} />
+          <Route path="/admin" element={<AdminRoute component={<Admin />} />} />
+          {/* <Route path="*" element={""} /> */}
         </Routes>
       </BrowserRouter>
     </div>

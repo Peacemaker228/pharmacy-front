@@ -3,19 +3,19 @@ import { useNavigate } from "react-router-dom";
 import styles from "../../components/Logo/Logo.module.css";
 import classNames from "classnames";
 
-const Logo = ({ type }) => {
+const Logo = ({ type, metaType }) => {
   const navigate = useNavigate();
   return (
     <div onClick={() => navigate("/")}>
       <div
         className={classNames(
-          styles.logo,
-          type === "footer" ? styles.headerLogo : styles.footerLogo
+          styles.logo
+          // type === "footer" ? styles.headerLogo : styles.footerLogo
         )}
       >
         <svg
-          width={type === "footer" ? "226" : "163"}
-          height={type === "footer" ? "80" : "60"}
+          width={metaType ? "249" : type === "footer" ? "226" : "163"}
+          height={metaType ? "100" : type === "footer" ? "80" : "60"}
           viewBox="0 0 163 60"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"

@@ -92,8 +92,15 @@ const Header = ({ type }) => {
           {type === "header" && (
             <nav className={styles.profile}>
               <ul className={styles.profileList}>
-                <li className={styles.profileItems}>
-                  <NavLink to="/favourites" className={styles.profileLink}>
+                <li
+                  className={styles.profileItems}
+                  onClick={() => {
+                    setModalType(!isAuth && "auth");
+                    setVisible(!isAuth && true);
+                    navigate(isAuth && "/favourites");
+                  }}
+                >
+                  <NavLink to="" className={styles.profileLink}>
                     <svg
                       width="19"
                       height="17"
@@ -108,8 +115,15 @@ const Header = ({ type }) => {
                     </svg>
                   </NavLink>
                 </li>
-                <li className={styles.profileItems}>
-                  <NavLink to="/cart" className={styles.profileLink}>
+                <li
+                  onClick={() => {
+                    setModalType(!isAuth && "auth");
+                    setVisible(!isAuth && true);
+                    navigate(isAuth && "");
+                  }}
+                  className={styles.profileItems}
+                >
+                  <NavLink to="" className={styles.profileLink}>
                     <svg
                       width="24"
                       height="24"
