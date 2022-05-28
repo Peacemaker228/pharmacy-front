@@ -1,15 +1,17 @@
-import moment from "moment";
 import React from "react";
+import moment from "moment";
 import styles from "../Feedback/Feedback.module.css";
 
 const Feedback = ({ nickname, date, text }) => {
   return (
-    <div className={styles.feedback}>
+    <div className={styles.card}>
       <div className={styles.info}>
         <h3 className={styles.nickname}>{nickname}</h3>
-        <p className={styles.date}>{moment(date).format("DD.MM.YYYY")}</p>
+        <span className={styles.date}>{moment(date).format("DD.MM.YYYY")}</span>
       </div>
-      <p className={styles.text}>{text}</p>
+      <div>
+        <p className={styles.feedbackText}>{text}</p>
+      </div>
     </div>
   );
 };

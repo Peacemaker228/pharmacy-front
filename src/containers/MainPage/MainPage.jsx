@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { NavHashLink } from "react-router-hash-link";
 import ModalCustom from "../../components/Modal/Modal";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
@@ -22,23 +21,25 @@ import Feedback from "../../components/Feedback/Feedback";
 import Button from "../../components/Button/Button";
 import styles from "../MainPage/MainPage.module.css";
 import { getFeedbackList } from "../../services/Feedback/getFeedbackList";
+import { Pagination } from "antd";
 
 const MainPage = () => {
   const { isAuth } = useSelector((state) => state.auth);
   const [modalType, setModalType] = useState("");
   const [visible, setVisible] = useState(false);
+  const [total, setTotal] = useState(1);
   const [current, setCurrent] = useState(1);
   const [cards, setCards] = useState([]);
 
   const getFeedbacks = async () => {
     const { data } = await getFeedbackList(current);
-
+    setTotal(data.total_records);
     setCards(data.records);
   };
 
   useEffect(() => {
     getFeedbacks();
-  }, []);
+  }, [current]);
 
   // const navigate = useNavigate();
 
@@ -117,7 +118,7 @@ const MainPage = () => {
           />
         </div>
       </div>
-      <div className={styles.about}>
+      <div className={styles.about} id="about">
         <div className={styles.aboutContainer}>
           <h2 className={styles.commonTitle}>О нас</h2>
           <p className={styles.aboutText}>
@@ -141,17 +142,27 @@ const MainPage = () => {
           </div>
         </div>
       </div>
-      <div className={styles.feedback}>
+      <div className={styles.feedback} id="feed">
         <div className={styles.feedbackContainer}>
           <h2 className={styles.commonTitle}>Отзывы</h2>
           <div className={styles.feedbackGrid}>
             {cards.map((el) => (
-              <Feedback text={el.Title} date={el.created} nickname={el.Login} />
+              <Feedback
+                key={el.Id}
+                text={el.Title}
+                date={el.created}
+                nickname={el.Login}
+              />
             ))}
           </div>
+          <Pagination
+            style={{ margin: "20px 0 0" }}
+            pageSize={6}
+            total={total}
+            onChange={(value) => setCurrent(value)}
+          />
           <Button
             onClick={() => {
-              //
               setModalType(isAuth ? "feedback" : "auth");
               setVisible(true);
             }}
@@ -163,10 +174,9 @@ const MainPage = () => {
           />
         </div>
       </div>
-      <div className={styles.contacts}>
+      <div className={styles.contacts} id="contact">
         <div className={styles.contactsContainer}>
           <h2 className={styles.commonTitle}>Контакты</h2>
-          {/*  */}
         </div>
       </div>
       <ModalCustom

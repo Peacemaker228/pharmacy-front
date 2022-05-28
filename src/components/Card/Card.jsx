@@ -1,16 +1,11 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Button from "../Button/Button";
 import styles from "../Card/Card.module.css";
-import ModalCustom from "../Modal/Modal";
 
 const Card = ({ pic, title, text, span, price, onClick }) => {
   const [count, setCount] = useState(0);
   const navigate = useNavigate();
-  const [modalType, setModalType] = useState("");
-  const [visible, setVisible] = useState(false);
-  const { isAuth } = useSelector((state) => state.auth);
 
   return (
     <div className={styles.card}>
@@ -72,19 +67,6 @@ const Card = ({ pic, title, text, span, price, onClick }) => {
           </button>
         </div>
       </div>
-      <ModalCustom
-        closeModal={() => {
-          setModalType("");
-          setVisible(false);
-        }}
-        visible={visible}
-        type={modalType}
-        switchType={setModalType}
-        onCancel={() => {
-          setModalType("");
-          setVisible(false);
-        }}
-      />
     </div>
   );
 };

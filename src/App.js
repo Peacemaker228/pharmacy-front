@@ -22,7 +22,6 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<PublicRoute component={<MainPage />} />} />
-          {/* <Route path="/" element={<MainPage />} /> */}
 
           <Route
             path="/account"
@@ -54,7 +53,6 @@ function App() {
             element={<PublicRoute component={<Product />} />}
           />
           <Route path="/admin" element={<AdminRoute component={<Admin />} />} />
-          {/* <Route path="*" element={""} /> */}
         </Routes>
       </BrowserRouter>
     </div>

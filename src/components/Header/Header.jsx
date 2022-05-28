@@ -8,6 +8,7 @@ import classNames from "classnames";
 import ModalCustom from "../Modal/Modal";
 import styles from "../../components/Header/Header.module.css";
 import { logOut } from "../../store/reducers/AuthReducer";
+import { anchorEvent } from "../../utils/anchorEvent";
 
 const Header = ({ type }) => {
   const [modalType, setModalType] = useState("");
@@ -54,38 +55,35 @@ const Header = ({ type }) => {
                   Каталог
                 </NavLink>
               </li>
-              <li className={styles.items}>
-                <NavLink
-                  to=""
-                  className={classNames(
-                    styles.link,
-                    type === "header" ? styles.blue : styles.white
-                  )}
-                >
-                  О нас
-                </NavLink>
+              <li
+                onClick={() => anchorEvent("about", navigate)}
+                className={classNames(
+                  styles.link,
+                  styles.items,
+                  type === "header" ? styles.blue : styles.white
+                )}
+              >
+                О нас
               </li>
-              <li className={styles.items}>
-                <NavLink
-                  to=""
-                  className={classNames(
-                    styles.link,
-                    type === "header" ? styles.blue : styles.white
-                  )}
-                >
-                  Отзывы
-                </NavLink>
+              <li
+                onClick={() => anchorEvent("feed", navigate)}
+                className={classNames(
+                  styles.link,
+                  styles.items,
+                  type === "header" ? styles.blue : styles.white
+                )}
+              >
+                Отзывы
               </li>
-              <li className={styles.items}>
-                <NavLink
-                  to=""
-                  className={classNames(
-                    styles.link,
-                    type === "header" ? styles.blue : styles.white
-                  )}
-                >
-                  Контакты
-                </NavLink>
+              <li
+                onClick={() => anchorEvent("contact", navigate)}
+                className={classNames(
+                  styles.link,
+                  styles.items,
+                  type === "header" ? styles.blue : styles.white
+                )}
+              >
+                Контакты
               </li>
             </ul>
           </nav>

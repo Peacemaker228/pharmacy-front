@@ -12,6 +12,7 @@ import {
 import { createFeedback } from "../../services/Feedback/createFeedback";
 import moment from "moment";
 import styles from "./Modal.module.css";
+import { getUser } from "../../services/User/getUser";
 
 const AuthModal = ({ switchType, closeModal }) => {
   const { errorLogin, errorStatus, loginSuccess } = useSelector(
@@ -162,13 +163,20 @@ const RegModal = ({ switchType, closeModal }) => {
   );
 };
 
-const FeedbackModal = ({ switchType, closeModal }) => {
+const FeedbackModal = ({ switchType, closeModal, getFeedbacks }) => {
+  const [form] = Form.useForm();
+
+  useEffect(() => {
+    getUser().then((res) => form.setFieldsValue({ login: res.data.login }));
+  }, [form]);
+
   const onFinish = (values) => {
     delete values["login"];
     values.created = moment();
     createFeedback(values)
       .then((res) => {
         switchType("thanks");
+        getFeedbacks();
         setTimeout(() => {
           closeModal();
         }, 1000);
@@ -181,9 +189,9 @@ const FeedbackModal = ({ switchType, closeModal }) => {
   return (
     <div className={styles.modal}>
       <h3 className={styles.modalTitle}>Оставить отзыв</h3>
-      <Form onFinish={onFinish}>
+      <Form onFinish={onFinish} form={form}>
         <Form.Item name="login">
-          <Input placeholder="Логин" className={styles.modalInput} />
+          <Input placeholder="Логин" readOnly className={styles.modalInput} />
         </Form.Item>
         <Form.Item
           name="title"
@@ -239,7 +247,14 @@ const OrderStatus = () => {
   );
 };
 
-const ModalCustom = ({ visible, type, switchType, onCancel, closeModal }) => {
+const ModalCustom = ({
+  visible,
+  type,
+  switchType,
+  onCancel,
+  closeModal,
+  getFeedbacks,
+}) => {
   const content = () => {
     switch (type) {
       case "auth":
@@ -248,7 +263,11 @@ const ModalCustom = ({ visible, type, switchType, onCancel, closeModal }) => {
         return <RegModal switchType={switchType} closeModal={closeModal} />;
       case "feedback":
         return (
-          <FeedbackModal switchType={switchType} closeModal={closeModal} />
+          <FeedbackModal
+            getFeedbacks={getFeedbacks}
+            switchType={switchType}
+            closeModal={closeModal}
+          />
         );
       case "thanks":
         return <ThanksModal />;
