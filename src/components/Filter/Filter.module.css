@@ -1,0 +1,34 @@
+.filter {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 35px;
+  color: #93b8d9;
+  box-sizing: border-box;
+  padding: 0 16px;
+  border-radius: 100px;
+  background: #ffffff;
+  color: #93b8d9;
+  border: 1px solid #abceee;
+  transition: 0.3s;
+  cursor: pointer;
+  margin: 0 10px 15px 0;
+}
+
+.filter:hover {
+  color: #064d8d;
+  border: 1px solid #064d8d;
+}
+
+.filterActive {
+  background: #136eef;
+  border: 1px solid #136eef;
+  color: #ffffff;
+}
+
+.filterActive:hover {
+  background: #136eef;
+  border: 1px solid #136eef;
+  color: #ffffff;
+}

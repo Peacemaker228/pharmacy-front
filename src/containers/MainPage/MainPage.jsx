@@ -1,7 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import { getFeedbackList } from "../../services/Feedback/getFeedbackList";
+import { NavHashLink } from "react-router-hash-link";
 import ModalCustom from "../../components/Modal/Modal";
 import Header from "../../components/Header/Header";
+import Card from "../../components/Card/Card";
+import Feedback from "../../components/Feedback/Feedback";
+import Button from "../../components/Button/Button";
 import Footer from "../../components/Footer/Footer";
 import photo from "../../assets/images/main_page/Фото.png";
 import anaferon from "../../assets/images/main_page/anaferon.png";
@@ -16,9 +21,9 @@ import pic5 from "../../assets/images/main_page/woman-working-at-pharmacy-and-we
 import pic6 from "../../assets/images/main_page/closeup-view-of-pharmacist-hand-taking-medicine-box-from-the-shelf-in-drug-store 1.png";
 import pic7 from "../../assets/images/main_page/pharmacist-in-white-uniform-holding-medicines-for-cardiovascular-disease 1.png";
 import pic8 from "../../assets/images/main_page/various-pills-on-wooden-spoon 1.png";
-import Card from "../../components/Card/Card";
-import Feedback from "../../components/Feedback/Feedback";
-import Button from "../../components/Button/Button";
+import { Space } from "antd";
+import Search from "antd/lib/input/Search";
+import { GetMainCategories } from "../../services/Catalog/GetMainGategories";
 import styles from "../MainPage/MainPage.module.css";
 import { getFeedbackList } from "../../services/Feedback/getFeedbackList";
 import { Pagination } from "antd";
@@ -30,6 +35,7 @@ const MainPage = () => {
   const [total, setTotal] = useState(1);
   const [current, setCurrent] = useState(1);
   const [cards, setCards] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const getFeedbacks = async () => {
     const { data } = await getFeedbackList(current);
@@ -40,6 +46,12 @@ const MainPage = () => {
   useEffect(() => {
     getFeedbacks();
   }, [current]);
+
+  useEffect(() => {
+    GetMainCategories().then((res) => {
+      setCategories(res.data);
+    });
+  }, []);
 
   // const navigate = useNavigate();
 
@@ -78,44 +90,62 @@ const MainPage = () => {
       <div className={styles.filter}>
         <div className={styles.filterContainer}>
           <h2 className={styles.filterTitle}>Наши лучшие товары</h2>
+          <div className={styles.filterCategory}>
+            <h3>Категории/группы препаратов</h3>
+            <Space direction="vertical">
+              <Search
+                className={styles.filterSearch}
+                placeholder="Найти"
+                // onSearch
+                style={{ width: 200 }}
+              />
+            </Space>
+          </div>
+          <div className={styles.filterItems}>
+            {categories.map((el) => (
+              <Filter name={el.name} onClick={() => console.log("test")} />
+            ))}
+          </div>
           {/*  */}
         </div>
       </div>
-      <div className={styles.card}>
-        <div className={styles.cardContainer}>
-          <Card
-            onClick={() => {
-              setModalType(!isAuth && "auth");
-              setVisible(!isAuth && true);
-            }}
-            pic={anaferon}
-            title="Название препарата 1"
-            text="Краткое описание товара Lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-            span="100 мг, 10 таб"
-            price="280,90 ₽"
-          />
-          <Card
-            onClick={() => {
-              setModalType(!isAuth && "auth");
-              setVisible(!isAuth && true);
-            }}
-            pic={anaferon}
-            title="Название препарата 1"
-            text="Краткое описание товара Lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-            span="100 мг, 10 таб"
-            price="280,90 ₽"
-          />
-          <Card
-            onClick={() => {
-              setModalType(!isAuth && "auth");
-              setVisible(!isAuth && true);
-            }}
-            pic={anaferon}
-            title="Название препарата 1"
-            text="Краткое описание товара Lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-            span="100 мг, 10 таб"
-            price="280,90 ₽"
-          />
+      <div className={styles.backMain}>
+        <div className={styles.card}>
+          <div className={styles.cardContainer}>
+            <Card
+              onClick={() => {
+                setModalType(isAuth && "status");
+                setVisible(isAuth && true);
+              }}
+              pic={anaferon}
+              title="Название препарата 1"
+              text="Краткое описание товара Lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
+              span="100 мг, 10 таб"
+              price="280,90 ₽"
+            />
+            <Card
+              onClick={() => {
+                setModalType(isAuth && "order");
+                setVisible(isAuth && true);
+              }}
+              pic={anaferon}
+              title="Название препарата 1"
+              text="Краткое описание товара Lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
+              span="100 мг, 10 таб"
+              price="280,90 ₽"
+            />
+            <Card
+              onClick={() => {
+                setModalType(!isAuth && "auth");
+                setVisible(!isAuth && true);
+              }}
+              pic={anaferon}
+              title="Название препарата 1"
+              text="Краткое описание товара Lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
+              span="100 мг, 10 таб"
+              price="280,90 ₽"
+            />
+          </div>
         </div>
       </div>
       <div className={styles.about} id="about">

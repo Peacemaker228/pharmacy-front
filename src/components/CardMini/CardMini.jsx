@@ -2,7 +2,17 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./CardMini.module.css";
 
-const CardMini = ({ pic, title, dose, text, count, status, price, date }) => {
+const CardMini = ({
+  isMyOrder,
+  pic,
+  title,
+  dose,
+  text,
+  quantity,
+  status,
+  price,
+  date,
+}) => {
   const navigate = useNavigate();
 
   return (
@@ -17,19 +27,21 @@ const CardMini = ({ pic, title, dose, text, count, status, price, date }) => {
         </div>
       </div>
       <div className={styles.about}>
-        <p>{count}</p>
+        <p  >{quantity}</p>
         <h3>{price}</h3>
       </div>
-      <div className={styles.status}>
-        <p>
-          <span>Дата совершения заказа: </span>
-          {date}
-        </p>
-        <p>
-          <span>Статус: </span>
-          {status}
-        </p>
-      </div>
+      {isMyOrder && (
+        <div className={styles.status}>
+          <p>
+            <span>Дата совершения заказа: </span>
+            {date}
+          </p>
+          <p>
+            <span>Статус: </span>
+            {status}
+          </p>
+        </div>
+      )}
     </div>
   );
 };

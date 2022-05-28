@@ -11,19 +11,23 @@ const Button = ({
   lineHeight,
   onClick,
   background,
+  white,
+  fontSize,
 }) => {
   return (
     <button
       onClick={onClick}
       className={classNames(
         styles.btn,
-        text === "Войти" ? styles.auth : styles.reg
+        // text === "Войти" ? styles.auth : styles.reg,
+        white ? styles.auth : styles.reg
       )}
       type={type}
       style={{
         width: width,
         lineHeight: lineHeight,
         margin: margin,
+        fontSize: fontSize,
         background: background,
       }}
     >

@@ -1,5 +1,14 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Form, Input, message, Modal, notification, Typography } from "antd";
+import {
+  Radio,
+  Space,
+  Form,
+  Input,
+  message,
+  Modal,
+  notification,
+  Typography,
+} from "antd";
 import Button from "../Button/Button";
 import stars from "../../assets/images/modal/stars.png";
 import status from "../../assets/images/status/status_wom.png";
@@ -12,12 +21,16 @@ import {
 import { createFeedback } from "../../services/Feedback/createFeedback";
 import moment from "moment";
 import styles from "./Modal.module.css";
-import { getUser } from "../../services/User/getUser";
+import FormItem from "antd/lib/form/FormItem";
+import { ADMIN, parseUserRole } from "../../utils/parseUserRole";
+import { ACCESS_TOKEN } from "../../api/api";
+import { useNavigate } from "react-router-dom";
 
 const AuthModal = ({ switchType, closeModal }) => {
   const { errorLogin, errorStatus, loginSuccess } = useSelector(
     (state) => state.auth
   );
+  const navigate = useNavigate();
 
   const { Text } = Typography;
   const dispatch = useDispatch();
@@ -26,6 +39,10 @@ const AuthModal = ({ switchType, closeModal }) => {
     if (loginSuccess) {
       message.success("Вы успешно вошли!");
       closeModal();
+    }
+
+    if (parseUserRole(localStorage.getItem(ACCESS_TOKEN)) === ADMIN) {
+      navigate("/admin");
     }
   }, [loginSuccess]);
 
@@ -226,7 +243,7 @@ const ThanksModal = () => {
     <div className={styles.modalThanks}>
       <h3 className={styles.modalTitle}>Спасибо за Ваш отзыв!</h3>
       <img src={stars} alt="stars" />
-      <p>
+      <p className={styles.text}>
         Мы заботимся о наших клиентах, а также о качестве предоставляемых нами
         услуг.
       </p>
@@ -234,27 +251,66 @@ const ThanksModal = () => {
   );
 };
 
-const OrderStatus = () => {
+const OrderModal = () => {
   return (
-    <div className={styles.modalStatus}>
-      <h2 className={styles.statusTitle}>Спасибо за Ваш отзыв!</h2>
+    <div className={styles.modalOrder}>
+      <h3 className={styles.orderTitle}>Спасибо за Ваш заказ!</h3>
       <img src={status} alt="woman" />
-      <p>Номер Вашего заказа 12345</p>
-      <p>
+      <span>Номер Вашего заказа 12345</span>
+      <p className={styles.text}>
         Менеджер свяжется с Вами в течение 15-ти минут для подтверждения заказа.
       </p>
     </div>
   );
 };
 
-const ModalCustom = ({
-  visible,
-  type,
-  switchType,
-  onCancel,
-  closeModal,
-  getFeedbacks,
-}) => {
+const StatusModal = () => {
+  const onFinish = (values) => {};
+  return (
+    <div className={styles.modalStatus}>
+      <h3 className={styles.modalTitle}>Смена статуса заказа</h3>{" "}
+      <Form onFinish={onFinish} className={styles.formItem}>
+        <FormItem name="status">
+          <Radio.Group>
+            <Space direction="vertical">
+              <Radio className={styles.radioTitle} value={1}>
+                Оплачен
+              </Radio>
+              <Radio className={styles.radioTitle} value={2}>
+                Доставлен
+              </Radio>
+              <Radio className={styles.radioTitle} value={3}>
+                Отменен
+              </Radio>
+              <Radio className={styles.radioTitle} value={4}>
+                Завершен
+              </Radio>
+              <Radio className={styles.radioTitle} value={5}>
+                Формируется на складе
+              </Radio>
+              <Radio className={styles.radioTitle} value={6}>
+                Ожидает оплаты
+              </Radio>
+              <Radio className={styles.radioTitle} value={7}>
+                Ожидает доставки
+              </Radio>
+            </Space>
+          </Radio.Group>
+        </FormItem>
+        <FormItem name="status">
+          <Button
+            type="submit"
+            width="300px"
+            lineHeight="48px"
+            text="Сохранить"
+          />
+        </FormItem>
+      </Form>
+    </div>
+  );
+};
+
+const ModalCustom = ({ visible, type, switchType, onCancel, closeModal }) => {
   const content = () => {
     switch (type) {
       case "auth":
@@ -271,8 +327,10 @@ const ModalCustom = ({
         );
       case "thanks":
         return <ThanksModal />;
+      case "order":
+        return <OrderModal />;
       case "status":
-        return <OrderStatus />;
+        return <StatusModal />;
       default:
         return;
     }

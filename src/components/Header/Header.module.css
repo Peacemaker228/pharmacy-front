@@ -73,6 +73,14 @@
   margin: 0;
 }
 
+.profileLink path {
+  transition: 0.3s;
+}
+
+.profileLink:hover svg path {
+  fill: #136eef;
+}
+
 .profileItems:last-of-type {
   margin-left: 30px;
 }
@@ -112,6 +120,9 @@
 .account svg {
   cursor: pointer;
   /* ne rab */
+}
+
+.account svg path {
   transition: 0.3s;
 }
 
