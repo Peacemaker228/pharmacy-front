@@ -1,12 +1,20 @@
 import React from "react";
 import { Form, Input, message, Modal, notification, Typography } from "antd";
-import styles from "./Edit.module.css";
 import Button from "../../components/Button/Button";
+import BreadcrumbComponent from "../../components/Breadcrumb/Breadcrumb";
+import styles from "./Edit.module.css";
 
 const Edit = () => {
   return (
     <div className={styles.edit}>
       <div className={styles.editContainer}>
+        <BreadcrumbComponent
+          crumbs={[
+            { path: "/", name: "Главная" },
+            { path: "/account", name: "Личный кабинет" },
+            { path: "", name: "Изменить личные данные" },
+          ]}
+        />
         <h2>Изменить личные данные</h2>
         <Form className={styles.form} onFinish={"onFinish"}>
           <Form.Item

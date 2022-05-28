@@ -13,6 +13,7 @@ import Product from "./containers/Product/Product";
 import Admin from "./containers/Admin/Admin";
 import AdminRoute from "./router/AdminRoute";
 import PublicRoute from "./router/PublicRoute";
+import NotFound from "./containers/NotFound/NotFound";
 import "antd/dist/antd.css";
 import "./App.css";
 
@@ -54,7 +55,7 @@ function App() {
             element={<PublicRoute component={<Product />} />}
           />
           <Route path="/admin" element={<AdminRoute component={<Admin />} />} />
-          {/* <Route path="*" element={""} /> */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </div>

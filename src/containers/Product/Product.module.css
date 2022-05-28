@@ -198,3 +198,7 @@
   display: flex;
   justify-content: space-between;
 }
+
+.counterBtn:hover {
+  color: #136eef;
+}

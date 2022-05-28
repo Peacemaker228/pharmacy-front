@@ -11,7 +11,7 @@
   font-size: 40px;
   line-height: 58px;
   color: #001732;
-  margin-bottom: 30px;
+  margin: 10px 0 30px;
 }
 
 .blocks {
@@ -21,7 +21,7 @@
 }
 
 .titleBtn {
-  max-height: 130px;
+  height: 130px !important;
   cursor: pointer;
   outline: none;
   width: 330px;
@@ -30,6 +30,8 @@
   background: #ffffff;
   border: 1px solid #93b8d9;
   color: #001732;
+  box-sizing: border-box;
+  transition: 0.2s;
 }
 
 /* .titleBtnBlue {
@@ -47,7 +49,7 @@
   font-family: "Raleway";
   font-style: normal;
   font-size: 35px;
-  line-height: 45px;
+  line-height: 45px !important;
   font-weight: 400;
 }
 

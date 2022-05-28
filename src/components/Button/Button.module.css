@@ -8,6 +8,25 @@
   outline: none;
   text-align: center;
   box-sizing: border-box;
+  transition: 0.3s;
+}
+
+/* .btn:hover {
+  box-shadow: 0px 4px 15px rgba(6, 77, 141, 0.3);
+} */
+.reg:hover {
+  box-shadow: 0px 4px 15px rgba(6, 77, 141, 0.3);
+}
+
+.auth:hover {
+  border: 1px solid #064d8d;
+  color: #064d8d;
+  box-shadow: none;
+}
+
+footer .auth:hover {
+  color: #93b8d9;
+  border: 1px solid #abceee;
 }
 
 footer .auth {
@@ -55,7 +74,7 @@ footer .auth {
 }
 
 .buy .btn {
-  font-size: 50px;  
+  font-size: 50px;
 }
 
 .basket {

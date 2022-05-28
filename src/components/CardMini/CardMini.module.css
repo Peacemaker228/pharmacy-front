@@ -9,16 +9,19 @@ h3 {
   display: flex;
   flex-direction: column;
   border: 1px solid #93b8d9;
+  box-sizing: border-box;
 }
 
 .main {
   display: flex;
   /* flex-direction: column; */
+  box-sizing: border-box;
 }
 
 .left {
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 }
 
 .right {
@@ -48,7 +51,7 @@ h3 {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin: 30px 0;
+  margin: 30px 0 0 0;
 }
 
 .about p {
@@ -78,6 +81,7 @@ h3 {
 .status {
   display: flex;
   flex-direction: column;
+  margin: 30px 0 0 0;
 }
 
 .status p {
@@ -94,6 +98,20 @@ h3 {
   margin-bottom: 10px;
 }
 
-span {
+/* span {
   color: #959595;
+} */
+
+.quantity {
+  text-align: center;
+  width: 70px;
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 30px;
+  color: #505050;
+  border: 1px solid #d0d0d0;
+  border-radius: 100px;
+  margin-bottom: 0;
 }

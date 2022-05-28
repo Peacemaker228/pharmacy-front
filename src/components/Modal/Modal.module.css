@@ -4,6 +4,8 @@
 }
 
 .modalTitle {
+  font-family: "Jost";
+  font-style: normal;
   font-weight: 600;
   font-size: 37px;
   line-height: 58px;
@@ -76,16 +78,18 @@
   margin-top: 15px;
 }
 
-.modalStatus {
+.modalOrder {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  padding: 50px 44px;
+  padding: 15px 0px;
   justify-content: center;
   align-items: center;
+  max-width: 423px;
+  margin: 0 auto;
 }
 
-.statusTitle {
+.orderTitle {
   font-family: "Jost";
   font-style: normal;
   font-weight: 500;
@@ -94,7 +98,7 @@
   color: #001732;
 }
 
-.modalStatus p {
+.modalOrder span {
   font-family: "Raleway";
   font-style: normal;
   font-weight: 600;
@@ -102,4 +106,42 @@
   line-height: 23px;
   text-align: center;
   color: #001732;
+  margin: 20px 0 15px;
+}
+
+.modalOrder p {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 23px;
+  text-align: center;
+  color: #001732;
+  max-width: 377px;
+  margin: 0;
+}
+
+.modalStatus {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.formItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.radioTitle span{
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #082f54;
 }
