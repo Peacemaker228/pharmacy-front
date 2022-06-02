@@ -21,9 +21,7 @@ const Favourites = () => {
             ]}
           />
           <h2>Избранное</h2>
-          <div className={styles.favouritesGrid}>
-            <Card />
-          </div>
+          <div className={styles.favouritesGrid}>{/* <Card /> */}</div>
 
           <Empty
             isBtn={true}

@@ -38,13 +38,13 @@ const Header = ({ type }) => {
     }
   }, [isAuth]);
 
-  setInterval(() => {
-    GetActiveBasket().then((res) =>
-      setBasketCount(res.data.basket.basket_contents.length)
-    );
+  // setInterval(() => {
+  //   GetActiveBasket().then((res) =>
+  //     setBasketCount(res.data.basket.basket_contents.length)
+  //   );
 
-    GetListFavorites().then((res) => setFavCount(res.data.length || 0));
-  }, 5000);
+  //   GetListFavorites().then((res) => setFavCount(res.data.length || 0));
+  // }, 5000);
 
   const exit = () => {
     dispatch(logOut());

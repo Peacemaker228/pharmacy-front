@@ -1,14 +1,58 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { GetListProduct } from "../../services/Product/GetListProduct";
+import { useSelector } from "react-redux";
+import { GetListFavorites } from "../../services/Favorites/GetListFavorites";
+import { GetActiveBasket } from "../../services/Basket/GetActiveBasket";
+import { GetMainCategories } from "../../services/Catalog/GetMainGategories";
+import { AddProduct } from "../../services/Product/AddProduct";
 import BreadcrumbComponent from "../../components/Breadcrumb/Breadcrumb";
 import Empty from "../../components/Empty/Empty";
 import empty from "../../assets/images/catalog/empty_catalog.png";
-import { Form, Input, Select } from "antd";
 // import { Option } from "antd/lib/mentions";
-import styles from "./Catalog.module.css";
 import Button from "../../components/Button/Button";
+import Card from "../../components/Card/Card";
+import ModalCustom from "../../components/Modal/Modal";
+import { Form, Input, Pagination, Select } from "antd";
+import styles from "./Catalog.module.css";
+import { useParams } from "react-router-dom";
+import { current } from "@reduxjs/toolkit";
 
 const Catalog = () => {
+  const { isAuth } = useSelector((state) => state.auth);
   const { Option } = Select;
+  const { category_id } = useParams();
+  const [modalType, setModalType] = useState("");
+  const [visible, setVisible] = useState(false);
+  const [total, setTotal] = useState(1);
+  const [products, setProducts] = useState([]);
+  const [basketId, setBasketId] = useState(-1);
+  const [category, setCategory] = useState(category_id);
+  const [click, setClick] = useState(false);
+  const [fav, setFav] = useState([]);
+  const [currentList, setCurrentList] = useState(1);
+  const [categories, setCategories] = useState([]);
+
+  const getProducts = async () => {
+    const { data } = await GetListProduct(current, category).then((res) => {
+      setTotal(data.total_records);
+      setProducts(res.data.records);
+    });
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, [category, current]);
+
+  useEffect(() => {
+    GetListFavorites().then((res) => setFav(res.data));
+    GetActiveBasket().then((res) => setBasketId(res.data.basket.ID));
+  }, [isAuth, click]);
+
+  useEffect(() => {
+    GetMainCategories().then((res) => {
+      setCategories(res.data);
+    });
+  }, []);
 
   return (
     <>
@@ -77,11 +121,57 @@ const Catalog = () => {
               />
             </Form>
           </div>
-          <div className={styles.catalogGrid}></div>
-
-          <Empty empty={empty} text="Нет подходящих результатов" />
+          <div className={styles.catalogGrid}>
+            {products.map((el, index) => {
+              return (
+                <Card
+                  key={el.ID}
+                  id={el.ID}
+                  favProduct={fav.map((el) => el.product_id)}
+                  onClick={() => {
+                    if (isAuth) {
+                      AddProduct(basketId, el.ID);
+                    } else {
+                      setModalType("auth");
+                      setVisible(true);
+                    }
+                  }}
+                  click={click}
+                  iconClick={() => {
+                    setModalType("auth");
+                    setVisible(true);
+                  }}
+                  setClick={setClick}
+                  pic={el.img_href}
+                  title={el.name}
+                  text={el.description}
+                  price={el.price}
+                />
+              );
+            })}
+          </div>
+          <Pagination
+            style={{ margin: "20px 0 0", textAlign: "center" }}
+            pageSize={20}
+            total={total}
+            onChange={(value) => setCurrentList(value)}
+          />
         </div>
+        <Empty empty={empty} text="Нет подходящих результатов" />
       </div>
+      <ModalCustom
+        closeModal={() => {
+          setModalType("");
+          setVisible(false);
+        }}
+        visible={visible}
+        type={modalType}
+        switchType={setModalType}
+        onCancel={() => {
+          setModalType("");
+          setVisible(false);
+        }}
+      />
     </>
   );
 };

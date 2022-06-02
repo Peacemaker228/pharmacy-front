@@ -47,7 +47,7 @@ const MainPage = () => {
   };
 
   const getProducts = () => {
-    GetListProduct(category).then((res) => {
+    GetListProduct(1, category).then((res) => {
       setProducts([
         res.data.records[0],
         res.data.records[1],
@@ -143,7 +143,7 @@ const MainPage = () => {
                 <Card
                   key={el.ID}
                   id={el.ID}
-                  favProduct={fav[index]?.product_id}
+                  favProduct={fav.map((el) => el.product_id)}
                   onClick={() => {
                     if (isAuth) {
                       AddProduct(basketId, el.ID);

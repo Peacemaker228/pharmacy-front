@@ -3,9 +3,11 @@ import { Popover, Row, Col } from "antd";
 import { GetMainCategories } from "../../services/Catalog/GetMainGategories";
 import classNames from "classnames";
 import styles from "./Catalog.module.css";
+import { useNavigate } from "react-router-dom";
 
 const CatalogContent = () => {
   const [categories, setCategories] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     GetMainCategories().then((res) => {
@@ -24,7 +26,13 @@ const CatalogContent = () => {
                 {el.categories.map((elem) => {
                   return (
                     <Col key={elem.ID} span={24}>
-                      <p onClick={""}>{elem.name}</p>
+                      <p
+                        onClick={() =>
+                          navigate(`/catalog?category_id=${el.ID}`)
+                        }
+                      >
+                        {elem.name}
+                      </p>
                     </Col>
                   );
                 })}
