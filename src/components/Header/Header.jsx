@@ -8,14 +8,19 @@ import classNames from "classnames";
 import ModalCustom from "../Modal/Modal";
 import { logOut } from "../../store/reducers/AuthReducer";
 import { Badge } from "antd";
-import styles from "../../components/Header/Header.module.css";
 import Catalog from "../Catalog/Catalog";
+import { anchorEvent } from "../../utils/anchorEvent";
+import { GetActiveBasket } from "../../services/Basket/GetActiveBasket";
+import styles from "../../components/Header/Header.module.css";
+import { GetListFavorites } from "../../services/Favorites/GetListFavorites";
 
 const Header = ({ type }) => {
   const [modalType, setModalType] = useState("");
   const [visible, setVisible] = useState(false);
   const { isAuth } = useSelector((state) => state.auth);
   const [userName, setUserName] = useState("");
+  const [basketCount, setBasketCount] = useState(0);
+  const [favCount, setFavCount] = useState(0);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -24,8 +29,22 @@ const Header = ({ type }) => {
       getUser().then((res) => {
         setUserName(res.data.login);
       });
+
+      GetActiveBasket().then((res) =>
+        setBasketCount(res.data.basket.basket_contents.length)
+      );
+
+      GetListFavorites().then((res) => setFavCount(res.data.length));
     }
   }, [isAuth]);
+
+  setInterval(() => {
+    GetActiveBasket().then((res) =>
+      setBasketCount(res.data.basket.basket_contents.length)
+    );
+
+    GetListFavorites().then((res) => setFavCount(res.data.length || 0));
+  }, 5000);
 
   const exit = () => {
     dispatch(logOut());
@@ -101,7 +120,8 @@ const Header = ({ type }) => {
                 >
                   <NavLink to="" className={styles.profileLink}>
                     <Badge
-                      count={5}
+                      count={favCount}
+                      showZero
                       size="small"
                       color="#136EEF"
                       offset={[0, 15]}
@@ -131,7 +151,8 @@ const Header = ({ type }) => {
                 >
                   <NavLink to="" className={styles.profileLink}>
                     <Badge
-                      count={5}
+                      showZero
+                      count={basketCount}
                       size="small"
                       color="#136EEF"
                       offset={[-3, 19]}

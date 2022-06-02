@@ -25,6 +25,7 @@ import FormItem from "antd/lib/form/FormItem";
 import { ADMIN, parseUserRole } from "../../utils/parseUserRole";
 import { ACCESS_TOKEN } from "../../api/api";
 import { useNavigate } from "react-router-dom";
+import { getUser } from "../../services/User/getUser";
 
 const AuthModal = ({ switchType, closeModal }) => {
   const { errorLogin, errorStatus, loginSuccess } = useSelector(
@@ -115,6 +116,7 @@ const RegModal = ({ switchType, closeModal }) => {
   const onFinish = (values) => {
     delete values["confirm"];
     dispatch(Registration(values));
+    
     dispatch(resetNotificationConfig());
   };
 
@@ -310,7 +312,7 @@ const StatusModal = () => {
   );
 };
 
-const ModalCustom = ({ visible, type, switchType, onCancel, closeModal }) => {
+const ModalCustom = ({ visible, type, switchType, onCancel, closeModal, getFeedbacks }) => {
   const content = () => {
     switch (type) {
       case "auth":

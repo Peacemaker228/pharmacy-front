@@ -6,6 +6,7 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   background-color: #ffffff;
 }
 
@@ -28,7 +29,9 @@
 
 .pic {
   margin-top: 10px;
-  max-width: 100%;
+  max-width: 268px;
+  height: 166px;
+  object-fit: contain;
   cursor: pointer;
 }
 
