@@ -32,16 +32,20 @@ const Catalog = () => {
   const [currentList, setCurrentList] = useState(1);
   const [categories, setCategories] = useState([]);
 
+  // const [country, setCountry] = useState();
+
   const getProducts = async () => {
-    const { data } = await GetListProduct(current, category).then((res) => {
-      setTotal(data.total_records);
-      setProducts(res.data.records);
-    });
+    const { data } = await GetListProduct(category, 1, 12);
+
+    // console.log(category);
+
+    setTotal(data.total_records);
+    setProducts(data.records);
   };
 
   useEffect(() => {
     getProducts();
-  }, [category, current]);
+  }, [category, currentList]);
 
   useEffect(() => {
     GetListFavorites().then((res) => setFav(res.data));
@@ -53,6 +57,28 @@ const Catalog = () => {
       setCategories(res.data);
     });
   }, []);
+
+  const uniq = [...new Set(products.map((el) => JSON.stringify(el)))];
+
+  const res = Array.from(uniq).map((e) => JSON.parse(e));
+
+  const options = res.map((el) => {
+    return (
+      <Option key={el.ID} value={el.ID}>
+        {el.country}
+      </Option>
+    );
+  });
+
+  console.log(options);
+
+  const categoriesOption = categories.map((el) => {
+    return (
+      <Option key={el.ID} value={el.ID}>
+        {el.name}
+      </Option>
+    );
+  });
 
   return (
     <>
@@ -77,11 +103,12 @@ const Catalog = () => {
                   placeholder="Категория препарата"
                   allowClear
                 >
-                  <Option className={styles.option} value="Анестезия">
+                  {/* <Option className={styles.option} value="Анестезия">
                     Анестезия
                   </Option>
                   <Option value="Антибиотики">Антибиотики</Option>
-                  <Option value="Боль, температура">Боль, температура</Option>
+                  <Option value="Боль, температура">Боль, температура</Option> */}
+                  {categoriesOption}
                 </Select>
               </Form.Item>
 
@@ -106,11 +133,12 @@ const Catalog = () => {
                   placeholder="Страна, производитель"
                   allowClear
                 >
-                  <Option className={styles.option} value="Россия">
+                  {/* <Option className={styles.option} value="Россия">
                     Россия
                   </Option>
                   <Option value="Германия">Германия</Option>
-                  <Option value="Великобритания">Великобритания</Option>
+                  <Option value="Великобритания">Великобритания</Option> */}
+                  {options}
                 </Select>
               </Form.Item>
               <Button
@@ -122,7 +150,7 @@ const Catalog = () => {
             </Form>
           </div>
           <div className={styles.catalogGrid}>
-            {products.map((el, index) => {
+            {products.map((el) => {
               return (
                 <Card
                   key={el.ID}
@@ -151,8 +179,8 @@ const Catalog = () => {
             })}
           </div>
           <Pagination
-            style={{ margin: "20px 0 0", textAlign: "center" }}
-            pageSize={20}
+            style={{ margin: "40px 0 0", textAlign: "center" }}
+            pageSize={12}
             total={total}
             onChange={(value) => setCurrentList(value)}
           />

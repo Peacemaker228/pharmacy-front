@@ -47,7 +47,7 @@ const MainPage = () => {
   };
 
   const getProducts = () => {
-    GetListProduct(1, category).then((res) => {
+    GetListProduct(category, 1).then((res) => {
       setProducts([
         res.data.records[0],
         res.data.records[1],

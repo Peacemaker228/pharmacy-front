@@ -74,16 +74,15 @@ const Header = ({ type }) => {
               ) : (
                 <Catalog type={type} />
               )}
-              <li className={styles.items}>
-                <NavLink
-                  to=""
-                  className={classNames(
-                    styles.link,
-                    type === "header" ? styles.blue : styles.white
-                  )}
-                >
-                  О нас
-                </NavLink>
+              <li
+                onClick={() => anchorEvent("about", navigate)}
+                className={classNames(
+                  styles.link,
+                  styles.items,
+                  type === "header" ? styles.blue : styles.white
+                )}
+              >
+                О нас
               </li>
               <li
                 onClick={() => anchorEvent("feed", navigate)}

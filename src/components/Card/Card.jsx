@@ -52,9 +52,6 @@ const Card = ({
     }
   }, [favProduct, id, click, isAuth]);
 
-  console.log("fav", favProduct);
-  console.log("id", id);
-
   return (
     <>
       <div className={styles.card}>
