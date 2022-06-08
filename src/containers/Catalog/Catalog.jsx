@@ -12,10 +12,9 @@ import empty from "../../assets/images/catalog/empty_catalog.png";
 import Button from "../../components/Button/Button";
 import Card from "../../components/Card/Card";
 import ModalCustom from "../../components/Modal/Modal";
-import { Form, Input, Pagination, Select } from "antd";
+import { Form, Input, Pagination, Select, Spin } from "antd";
 import styles from "./Catalog.module.css";
 import { useParams } from "react-router-dom";
-import { current } from "@reduxjs/toolkit";
 
 const Catalog = () => {
   const { isAuth } = useSelector((state) => state.auth);
@@ -28,24 +27,31 @@ const Catalog = () => {
   const [basketId, setBasketId] = useState(-1);
   const [category, setCategory] = useState(category_id);
   const [click, setClick] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [fav, setFav] = useState([]);
   const [currentList, setCurrentList] = useState(1);
   const [categories, setCategories] = useState([]);
 
   // const [country, setCountry] = useState();
 
-  const getProducts = async () => {
-    const { data } = await GetListProduct(category, 1, 12);
+  const getProducts = async (filters) => {
+    try {
+      const { data } = await GetListProduct(category, 1, 12, filters);
 
-    // console.log(category);
+      // console.log(category);
 
-    setTotal(data.total_records);
-    setProducts(data.records);
+      setTotal(data.total_records);
+      setProducts(data.records);
+    } catch (e) {
+      throw new Error(e);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     getProducts();
-  }, [category, currentList]);
+  }, []);
 
   useEffect(() => {
     GetListFavorites().then((res) => setFav(res.data));
@@ -64,7 +70,7 @@ const Catalog = () => {
 
   const options = res.map((el) => {
     return (
-      <Option key={el.ID} value={el.ID}>
+      <Option key={el.ID} value={el.country}>
         {el.country}
       </Option>
     );
@@ -80,6 +86,13 @@ const Catalog = () => {
     );
   });
 
+  const onFinish = (values) => {
+    delete values.category;
+    getProducts(values);
+  };
+
+  console.log(categoriesOption);
+
   return (
     <>
       <div className={styles.catalog}>
@@ -91,101 +104,112 @@ const Catalog = () => {
             ]}
           />
           <h2>Каталог</h2>
-          <div className={styles.catalogForm}>
-            <Form className={styles.form} onFinish={"onFinish"}>
-              <Form.Item
-                className={styles.formItem}
-                name="category"
-                // rules={[{ required: true, message: "Выберите адрес" }]}
-              >
-                <Select
-                  className={styles.select}
-                  placeholder="Категория препарата"
-                  allowClear
+
+          {loading ? (
+            <Spin />
+          ) : (
+            <div className={styles.catalogForm}>
+              <Form className={styles.form} onFinish={onFinish}>
+                <Form.Item
+                  className={styles.formItem}
+                  name="category"
+                  // rules={[{ required: true, message: "Выберите адрес" }]}
                 >
-                  {/* <Option className={styles.option} value="Анестезия">
+                  <Select
+                    className={styles.select}
+                    placeholder="Категория препарата"
+                    onChange={(val) => setCategory(val)}
+                    allowClear
+                  >
+                    {/* <Option className={styles.option} value="Анестезия">
                     Анестезия
                   </Option>
                   <Option value="Антибиотики">Антибиотики</Option>
                   <Option value="Боль, температура">Боль, температура</Option> */}
-                  {categoriesOption}
-                </Select>
-              </Form.Item>
+                    {categoriesOption}
+                  </Select>
+                </Form.Item>
 
-              <Form.Item
-                className={styles.formItem}
-                name="substance"
-                // rules={[{ required: true, message: "Введите отчество" }]}
-              >
-                <Input
-                  placeholder="Действующее вещество"
-                  className={styles.modalInput}
-                />
-              </Form.Item>
-
-              <Form.Item
-                className={styles.formItem}
-                name="country"
-                // rules={[{ required: true, message: "Выберите адрес" }]}
-              >
-                <Select
-                  className={styles.select}
-                  placeholder="Страна, производитель"
-                  allowClear
+                <Form.Item
+                  className={styles.formItem}
+                  name="substance"
+                  // rules={[{ required: true, message: "Введите отчество" }]}
                 >
-                  {/* <Option className={styles.option} value="Россия">
+                  <Input
+                    placeholder="Действующее вещество"
+                    className={styles.modalInput}
+                  />
+                </Form.Item>
+
+                <Form.Item
+                  className={styles.formItem}
+                  name="country"
+                  // rules={[{ required: true, message: "Выберите адрес" }]}
+                >
+                  <Select
+                    className={styles.select}
+                    placeholder="Страна, производитель"
+                    allowClear
+                  >
+                    {/* <Option className={styles.option} value="Россия">
                     Россия
                   </Option>
                   <Option value="Германия">Германия</Option>
                   <Option value="Великобритания">Великобритания</Option> */}
-                  {options}
-                </Select>
-              </Form.Item>
-              <Button
-                type="submit"
-                text="Применить"
-                lineHeight="45px"
-                width="150px"
-              />
-            </Form>
-          </div>
-          <div className={styles.catalogGrid}>
-            {products.map((el) => {
-              return (
-                <Card
-                  key={el.ID}
-                  id={el.ID}
-                  favProduct={fav.map((el) => el.product_id)}
-                  onClick={() => {
-                    if (isAuth) {
-                      AddProduct(basketId, el.ID);
-                    } else {
-                      setModalType("auth");
-                      setVisible(true);
-                    }
-                  }}
-                  click={click}
-                  iconClick={() => {
-                    setModalType("auth");
-                    setVisible(true);
-                  }}
-                  setClick={setClick}
-                  pic={el.img_href}
-                  title={el.name}
-                  text={el.description}
-                  price={el.price}
+                    {options}
+                  </Select>
+                </Form.Item>
+                <Button
+                  type="submit"
+                  text="Применить"
+                  lineHeight="45px"
+                  width="150px"
                 />
-              );
-            })}
-          </div>
-          <Pagination
-            style={{ margin: "40px 0 0", textAlign: "center" }}
-            pageSize={12}
-            total={total}
-            onChange={(value) => setCurrentList(value)}
-          />
+              </Form>
+            </div>
+          )}
+          {products.length !== 0 ? (
+            <>
+              <div className={styles.catalogGrid}>
+                {products.map((el) => {
+                  return (
+                    <Card
+                      key={el.ID}
+                      id={el.ID}
+                      favProduct={fav.map((el) => el.product_id)}
+                      onClick={() => {
+                        if (isAuth) {
+                          AddProduct(basketId, el.ID);
+                        } else {
+                          setModalType("auth");
+                          setVisible(true);
+                        }
+                      }}
+                      click={click}
+                      iconClick={() => {
+                        setModalType("auth");
+                        setVisible(true);
+                      }}
+                      setClick={setClick}
+                      pic={el.img_href}
+                      title={el.name}
+                      text={el.description}
+                      price={el.price}
+                    />
+                  );
+                })}
+              </div>
+              <Pagination
+                style={{ margin: "40px 0 0", textAlign: "center" }}
+                pageSize={12}
+                total={total}
+                onChange={(value) => setCurrentList(value)}
+              />
+            </>
+          ) : (
+            <Empty empty={empty} text="Нет подходящих результатов" />
+          )}
         </div>
-        <Empty empty={empty} text="Нет подходящих результатов" />
       </div>
       <ModalCustom
         closeModal={() => {
