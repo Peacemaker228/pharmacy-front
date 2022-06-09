@@ -5,9 +5,7 @@ import store from "../store/store";
 
 export const ACCESS_TOKEN = "access_token";
 
-// export const baseHost = window.location.host;
-
-export const baseHost = "38bf-83-234-174-21.ngrok.io";
+export const baseHost = "localhost:8082";
 // export const baseHost = "192.168.1.146:8080";
 
 export const axiosInstance = axios.create({
@@ -17,8 +15,6 @@ export const axiosInstance = axios.create({
 export const privateAxiosInstance = axios.create({
   baseURL: `http://${baseHost}/api`,
 });
-
-const controller = new AbortController();
 
 const openNotificationWithIcon = (type) => {
   notification[type]({
@@ -44,43 +40,35 @@ privateAxiosInstance.interceptors.request.use(
 );
 
 privateAxiosInstance.interceptors.response.use(
-  function (config) {
+  (config) => {
     return config;
   },
 
-  function (error) {
+  async (error) => {
+    const originalRequest = error.config;
     if (
       error.response.status === 401 &&
-      window.location.pathname !== "/" &&
-      !error.config.is_retry
+      originalRequest &&
+      !originalRequest._isRetry
     ) {
-      error.config.is_retry = true;
+      originalRequest._isRetry = true;
+      try {
+        const res = await privateAxiosInstance.get("/user/refresh/token");
 
-      privateAxiosInstance
-        .get("/user/refresh/token")
-        .then((res) => {
-          localStorage.removeItem(ACCESS_TOKEN);
-          localStorage.setItem(ACCESS_TOKEN, res.data.token);
+        localStorage.removeItem(ACCESS_TOKEN);
+        localStorage.setItem(ACCESS_TOKEN, res.data.token);
+        originalRequest.headers["Authorization"] = "Bearer " + res.data.token;
 
-          error.config.headers["Authorization"] = "Bearer " + res.data.token;
-
-          return axiosInstance.request(error.config);
-        })
-        .catch((e) => {
-          controller.abort();
-          store.dispatch(logOut());
-          message.error("Authorize token was expired, please login again");
-
-          return Promise.reject(error);
-        });
+        return privateAxiosInstance.request(originalRequest);
+      } catch (e) {
+        console.log("test");
+        message.error("Authorize token was expired, please login again");
+        store.dispatch(logOut());
+      }
     }
 
     if (error.response.status === 403) {
       openNotificationWithIcon("error");
-    }
-
-    if (window.location.pathname === "/") {
-      return Promise.reject(error);
     }
 
     return Promise.reject(error);

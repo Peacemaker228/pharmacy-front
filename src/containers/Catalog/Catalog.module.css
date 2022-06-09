@@ -25,6 +25,10 @@
   margin-bottom: 0 !important;
 }
 
+.catalogForm {
+  margin-bottom: 20px;
+}
+
 .select {
   width: 260px !important;
 }

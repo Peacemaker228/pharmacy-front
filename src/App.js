@@ -15,6 +15,7 @@ import AdminRoute from "./router/AdminRoute";
 import PublicRoute from "./router/PublicRoute";
 import NotFound from "./containers/NotFound/NotFound";
 import "antd/dist/antd.css";
+import "./assets/styles/style.css";
 import "./App.css";
 
 function App() {
@@ -50,7 +51,7 @@ function App() {
             element={<PrivateRoute component={<OrderMaking />} />}
           />
           <Route
-            path="/product"
+            path="/product/:id"
             element={<PublicRoute component={<Product />} />}
           />
           <Route path="/admin" element={<AdminRoute component={<Admin />} />} />

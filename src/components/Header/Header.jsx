@@ -14,7 +14,7 @@ import { GetActiveBasket } from "../../services/Basket/GetActiveBasket";
 import styles from "../../components/Header/Header.module.css";
 import { GetListFavorites } from "../../services/Favorites/GetListFavorites";
 
-const Header = ({ type }) => {
+const Header = ({ type, click }) => {
   const [modalType, setModalType] = useState("");
   const [visible, setVisible] = useState(false);
   const { isAuth } = useSelector((state) => state.auth);
@@ -35,16 +35,11 @@ const Header = ({ type }) => {
       );
 
       GetListFavorites().then((res) => setFavCount(res.data.length));
+    } else {
+      setBasketCount(0);
+      setFavCount(0);
     }
   }, [isAuth]);
-
-  // setInterval(() => {
-  //   GetActiveBasket().then((res) =>
-  //     setBasketCount(res.data.basket.basket_contents.length)
-  //   );
-
-  //   GetListFavorites().then((res) => setFavCount(res.data.length || 0));
-  // }, 5000);
 
   const exit = () => {
     dispatch(logOut());

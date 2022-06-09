@@ -40,6 +40,10 @@
   font-style: normal;
   font-weight: 600;
   font-size: 18px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 290px;
   line-height: 21px;
   color: #000000;
   margin-top: 10px;

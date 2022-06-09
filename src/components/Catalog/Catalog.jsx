@@ -11,7 +11,7 @@ const CatalogContent = () => {
 
   useEffect(() => {
     GetMainCategories().then((res) => {
-      setCategories(res.data);
+      setCategories(res.data.filter(el => el.name !== "Пустая категория"));
     });
   }, []);
 

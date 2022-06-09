@@ -24,7 +24,9 @@ import pic5 from "../../assets/images/main_page/woman-working-at-pharmacy-and-we
 import pic6 from "../../assets/images/main_page/closeup-view-of-pharmacist-hand-taking-medicine-box-from-the-shelf-in-drug-store 1.png";
 import pic7 from "../../assets/images/main_page/pharmacist-in-white-uniform-holding-medicines-for-cardiovascular-disease 1.png";
 import pic8 from "../../assets/images/main_page/various-pills-on-wooden-spoon 1.png";
+import Contacts from "../../components/ContactsMap/ContactsMap";
 import styles from "../MainPage/MainPage.module.css";
+import CustomPagination from "../../components/Pagination/Pagination";
 
 const MainPage = () => {
   const { isAuth } = useSelector((state) => state.auth);
@@ -65,13 +67,17 @@ const MainPage = () => {
   }, [category]);
 
   useEffect(() => {
-    GetListFavorites().then((res) => setFav(res.data));
-    GetActiveBasket().then((res) => setBasketId(res.data.basket.ID));
+    if (isAuth) {
+      GetListFavorites().then((res) => setFav(res.data));
+      GetActiveBasket().then((res) => setBasketId(res.data.basket.ID));
+    } else {
+      setFav([]);
+    }
   }, [isAuth, click]);
 
   useEffect(() => {
     GetMainCategories().then((res) => {
-      setCategories(res.data);
+      setCategories(res.data.filter((el) => el.name !== "Пустая категория"));
     });
   }, []);
 
@@ -204,12 +210,14 @@ const MainPage = () => {
                 />
               ))}
             </div>
-            <Pagination
+            <CustomPagination
               style={{ margin: "20px 0 0" }}
               pageSize={6}
+              page={current}
               total={total}
-              onChange={(value) => setCurrent(value)}
+              setVal={setCurrent}
             />
+
             <Button
               onClick={() => {
                 setModalType(isAuth ? "feedback" : "auth");
@@ -227,6 +235,7 @@ const MainPage = () => {
       <div className={styles.contacts} id="contact">
         <div className={styles.contactsContainer}>
           <h2 className={styles.commonTitle}>Контакты</h2>
+          <Contacts />
         </div>
       </div>
       <ModalCustom

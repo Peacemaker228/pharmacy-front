@@ -9,7 +9,7 @@ const AdminRoute = ({ component }) => {
 
   return isAuth &&
     parseUserRole(localStorage.getItem(ACCESS_TOKEN)) === ADMIN ? (
-    <>{component} </>
+    { component }
   ) : (
     <Navigate to="/" />
   );
