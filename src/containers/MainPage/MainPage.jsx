@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Input, Pagination, Space } from "antd";
+import { Col, Input, Spin, Row, Space, message } from "antd";
 import { useSelector } from "react-redux";
 import { getFeedbackList } from "../../services/Feedback/getFeedbackList";
 import { GetMainCategories } from "../../services/Catalog/GetMainGategories";
@@ -12,6 +12,7 @@ import Card from "../../components/Card/Card";
 import Feedback from "../../components/Feedback/Feedback";
 import Button from "../../components/Button/Button";
 import Filter from "../../components/Filter/Filter";
+import empty from "../../assets/images/catalog/empty_catalog.png";
 import photo from "../../assets/images/main_page/Фото.png";
 import loc from "../../assets/images/main_page/Локация.png";
 import best from "../../assets/images/main_page/Лучшая.png";
@@ -24,9 +25,10 @@ import pic5 from "../../assets/images/main_page/woman-working-at-pharmacy-and-we
 import pic6 from "../../assets/images/main_page/closeup-view-of-pharmacist-hand-taking-medicine-box-from-the-shelf-in-drug-store 1.png";
 import pic7 from "../../assets/images/main_page/pharmacist-in-white-uniform-holding-medicines-for-cardiovascular-disease 1.png";
 import pic8 from "../../assets/images/main_page/various-pills-on-wooden-spoon 1.png";
-import Contacts from "../../components/ContactsMap/ContactsMap";
-import styles from "../MainPage/MainPage.module.css";
 import CustomPagination from "../../components/Pagination/Pagination";
+import { useDebounce } from "../../hooks/useDebounce";
+import styles from "../MainPage/MainPage.module.css";
+import Empty from "../../components/Empty/Empty";
 
 const MainPage = () => {
   const { isAuth } = useSelector((state) => state.auth);
@@ -41,22 +43,41 @@ const MainPage = () => {
   const [basketId, setBasketId] = useState(-1);
   const [click, setClick] = useState(false);
   const [fav, setFav] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+
+  let i = 2;
 
   const getFeedbacks = async () => {
-    const { data } = await getFeedbackList(current);
-    setTotal(data.total_records);
-    setCards(data.records);
+    try {
+      const { data } = await getFeedbackList(current);
+      setTotal(data.total_records);
+      setCards(data.records);
+    } catch (e) {
+      throw new Error(e);
+    }
   };
 
-  const getProducts = () => {
-    GetListProduct(category, 1).then((res) => {
-      setProducts([
-        res.data.records[0],
-        res.data.records[1],
-        res.data.records[2],
-      ]);
-    });
+  const getProducts = (filters) => {
+    setLoading(true);
+    GetListProduct(category, 1, 6, filters)
+      .then((res) => {
+        setProducts(res.data.records);
+      })
+      .catch((e) => {
+        throw new Error(e);
+      })
+      .finally(() => setLoading(false));
   };
+
+  useEffect(() => {
+    if (debouncedSearchTerm) {
+      getProducts({ search: searchTerm });
+    } else {
+      getProducts();
+    }
+  }, [debouncedSearchTerm]);
 
   useEffect(() => {
     getFeedbacks();
@@ -80,8 +101,6 @@ const MainPage = () => {
       setCategories(res.data.filter((el) => el.name !== "Пустая категория"));
     });
   }, []);
-
-  // const navigate = useNavigate();
 
   return (
     <>
@@ -119,10 +138,10 @@ const MainPage = () => {
             <div className={styles.filterCategory}>
               <h3>Категории/группы препаратов</h3>
               <Space direction="vertical">
-                <Input.Search
+                <Input
                   className={styles.filterSearch}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Найти"
-                  style={{ width: 200 }}
                 />
               </Space>
             </div>
@@ -139,38 +158,60 @@ const MainPage = () => {
                 );
               })}
             </div>
-            {/*  */}
           </div>
         </div>
         <div className={styles.card}>
           <div className={styles.cardContainer}>
-            {products.map((el, index) => {
-              return (
-                <Card
-                  key={el.ID}
-                  id={el.ID}
-                  favProduct={fav.map((el) => el.product_id)}
-                  onClick={() => {
-                    if (isAuth) {
-                      AddProduct(basketId, el.ID);
-                    } else {
-                      setModalType("auth");
-                      setVisible(true);
-                    }
-                  }}
-                  click={click}
-                  iconClick={() => {
-                    setModalType("auth");
-                    setVisible(true);
-                  }}
-                  setClick={setClick}
-                  pic={el.img_href}
-                  title={el.name}
-                  text={el.description}
-                  price={el.price}
-                />
-              );
-            })}
+            {loading ? (
+              <Spin />
+            ) : (
+              <Row
+                gutter={[10, 15]}
+                justify="center"
+                align="center"
+                style={{ width: "100%" }}
+              >
+                {products.length ? (
+                  products.map((el) => {
+                    return (
+                      <Col span={8} key={el.ID}>
+                        <Card
+                          id={el.ID}
+                          basketId={basketId}
+                          favProduct={fav.map((el) => el.product_id)}
+                          onClick={() => {
+                            if (isAuth) {
+                              AddProduct(basketId, el.ID)
+                                .then(() =>
+                                  message.success("Товар добавлен в корзину!")
+                                )
+                                .catch(() => message.error("Произошла ошибка!"));
+                            } else {
+                              setModalType("auth");
+                              setVisible(true);
+                            }
+                          }}
+                          click={click}
+                          iconClick={() => {
+                            setModalType("auth");
+                            setVisible(true);
+                          }}
+                          setClick={setClick}
+                          pic={el.img_href}
+                          title={el.name}
+                          text={el.description}
+                          price={el.price}
+                        />
+                      </Col>
+                    );
+                  })
+                ) : (
+                  <Col span={24}>
+                    <Empty empty={empty} text="Нет подходящих результатов" />
+                  </Col>
+                )}
+              </Row>
+            )}
           </div>
         </div>
         <div className={styles.about} id="about">
@@ -232,12 +273,7 @@ const MainPage = () => {
           </div>
         </div>
       </div>
-      <div className={styles.contacts} id="contact">
-        <div className={styles.contactsContainer}>
-          <h2 className={styles.commonTitle}>Контакты</h2>
-          <Contacts />
-        </div>
-      </div>
+
       <ModalCustom
         getFeedbacks={getFeedbacks}
         closeModal={() => {

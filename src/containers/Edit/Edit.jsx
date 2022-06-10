@@ -1,10 +1,27 @@
-import React from "react";
-import { Form, Input, message, Modal, notification, Typography } from "antd";
+import React, { useEffect } from "react";
+import { Form, Input, message } from "antd";
 import Button from "../../components/Button/Button";
 import BreadcrumbComponent from "../../components/Breadcrumb/Breadcrumb";
+import { UpdateData } from "../../services/User/UpdateData";
+import { getUser } from "../../services/User/getUser";
 import styles from "./Edit.module.css";
 
 const Edit = () => {
+  const [form] = Form.useForm();
+
+  useEffect(() => {
+    getUser().then((res) => {
+      form.setFieldsValue({ login: res.data.login, email: res.data.email });
+    });
+  }, [form]);
+
+  const onFinish = (values) => {
+    delete values.confirm;
+
+    UpdateData(values)
+      .then(() => message.success("Данные обновлены успешно!"))
+      .catch(() => message.error("Произошла ошибка!"));
+  };
   return (
     <div className={styles.edit}>
       <div className={styles.editContainer}>
@@ -16,7 +33,7 @@ const Edit = () => {
           ]}
         />
         <h2>Изменить личные данные</h2>
-        <Form className={styles.form} onFinish={"onFinish"}>
+        <Form className={styles.form} form={form} onFinish={onFinish}>
           <Form.Item
             name="login"
             rules={[{ required: true, message: "Введите логин" }]}
@@ -34,7 +51,7 @@ const Edit = () => {
           </Form.Item>
 
           <Form.Item
-            name="phone"
+            name="phone_number"
             rules={[{ required: true, message: "Введите номер телефона" }]}
           >
             <Input placeholder="Телефон" className={styles.modalInput} />

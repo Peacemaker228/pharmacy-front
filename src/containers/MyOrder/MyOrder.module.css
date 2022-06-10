@@ -1,7 +1,6 @@
 .orderContainer {
   max-width: 1050px;
   margin: 0 auto;
-  box-sizing: border-box;
 }
 
 .orderContainer h2 {

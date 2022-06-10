@@ -26,6 +26,7 @@ import { ADMIN, parseUserRole } from "../../utils/parseUserRole";
 import { ACCESS_TOKEN } from "../../api/api";
 import { useNavigate } from "react-router-dom";
 import { getUser } from "../../services/User/getUser";
+import { UpdateStatus } from "../../services/Order/Admin/UpdateStatus";
 
 const AuthModal = ({ switchType, closeModal }) => {
   const { errorLogin, errorStatus, loginSuccess } = useSelector(
@@ -59,7 +60,7 @@ const AuthModal = ({ switchType, closeModal }) => {
           name="email"
           rules={[
             { required: true, message: "Введите e-mail" },
-            { type: "email", message: "Не соответствует типу e-mail" },
+            // { type: "email", message: "Не соответствует типу e-mail" },
           ]}
         >
           <Input placeholder="E-mail" className={styles.modalInput} />
@@ -116,7 +117,7 @@ const RegModal = ({ switchType, closeModal }) => {
   const onFinish = (values) => {
     delete values["confirm"];
     dispatch(Registration(values));
-    
+
     dispatch(resetNotificationConfig());
   };
 
@@ -266,8 +267,20 @@ const OrderModal = () => {
   );
 };
 
-const StatusModal = () => {
-  const onFinish = (values) => {};
+const StatusModal = ({ id, setClick, closeModal }) => {
+  const onFinish = async (values) => {
+    const { status } = values;
+
+    try {
+      await UpdateStatus(id, status);
+      setClick((prev) => !prev);
+      message.success("Статус обновлен!");
+      closeModal();
+    } catch (e) {
+      message.error("Произошла ошибка!");
+    }
+  };
+
   return (
     <div className={styles.modalStatus}>
       <h3 className={styles.modalTitle}>Смена статуса заказа</h3>{" "}
@@ -276,25 +289,16 @@ const StatusModal = () => {
           <Radio.Group>
             <Space direction="vertical">
               <Radio className={styles.radioTitle} value={1}>
-                Оплачен
+                Ожидает оплаты
               </Radio>
               <Radio className={styles.radioTitle} value={2}>
-                Доставлен
+                Оплачен
               </Radio>
               <Radio className={styles.radioTitle} value={3}>
-                Отменен
+                Ожидает отправки
               </Radio>
               <Radio className={styles.radioTitle} value={4}>
                 Завершен
-              </Radio>
-              <Radio className={styles.radioTitle} value={5}>
-                Формируется на складе
-              </Radio>
-              <Radio className={styles.radioTitle} value={6}>
-                Ожидает оплаты
-              </Radio>
-              <Radio className={styles.radioTitle} value={7}>
-                Ожидает доставки
               </Radio>
             </Space>
           </Radio.Group>
@@ -312,7 +316,16 @@ const StatusModal = () => {
   );
 };
 
-const ModalCustom = ({ visible, type, switchType, onCancel, closeModal, getFeedbacks }) => {
+const ModalCustom = ({
+  visible,
+  type,
+  switchType,
+  onCancel,
+  closeModal,
+  basketId,
+  setClick,
+  getFeedbacks,
+}) => {
   const content = () => {
     switch (type) {
       case "auth":
@@ -332,7 +345,13 @@ const ModalCustom = ({ visible, type, switchType, onCancel, closeModal, getFeedb
       case "order":
         return <OrderModal />;
       case "status":
-        return <StatusModal />;
+        return (
+          <StatusModal
+            closeModal={closeModal}
+            setClick={setClick}
+            id={basketId}
+          />
+        );
       default:
         return;
     }

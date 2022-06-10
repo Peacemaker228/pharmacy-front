@@ -12,10 +12,12 @@ h3 {
   align-items: center;
   border: 1px solid #93b8d9;
   box-sizing: border-box;
+  margin-bottom: 20px;
 }
 
 .cardMini img {
-  max-width: 100%;
+  max-width: 124px;
+  height: auto;
 }
 
 .main {
@@ -32,7 +34,9 @@ h3 {
   line-height: 16px;
   color: #959595;
   text-overflow: ellipsis;
-  max-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 250px;
 }
 
 .main h3 {
@@ -42,6 +46,7 @@ h3 {
   font-size: 18px;
   line-height: 21px;
   color: #000000;
+  width: 300px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;

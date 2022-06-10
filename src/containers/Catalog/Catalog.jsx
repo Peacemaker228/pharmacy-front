@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { Form, Input, Select, Spin } from "antd";
 import { GetListProduct } from "../../services/Product/GetListProduct";
 import { useSelector } from "react-redux";
 import { GetListFavorites } from "../../services/Favorites/GetListFavorites";
 import { GetActiveBasket } from "../../services/Basket/GetActiveBasket";
-import { GetMainCategories } from "../../services/Catalog/GetMainGategories";
 import { AddProduct } from "../../services/Product/AddProduct";
 import BreadcrumbComponent from "../../components/Breadcrumb/Breadcrumb";
 import Empty from "../../components/Empty/Empty";
@@ -11,33 +11,43 @@ import empty from "../../assets/images/catalog/empty_catalog.png";
 import Button from "../../components/Button/Button";
 import Card from "../../components/Card/Card";
 import ModalCustom from "../../components/Modal/Modal";
-import { Form, Input, Select, Spin } from "antd";
-import styles from "./Catalog.module.css";
-import { useParams } from "react-router-dom";
 import CustomPagination from "../../components/Pagination/Pagination";
 import { GetCountryList } from "../../services/Country/GetCountryList";
 import classNames from "classnames";
+import { useQuery } from "../../hooks/useQuery";
+import { GetSubCategories } from "../../services/Catalog/GetSubGategories";
+import { useDebounce } from "../../hooks/useDebounce";
+import styles from "./Catalog.module.css";
+import { useNavigate } from "react-router-dom";
 
 const Catalog = () => {
+  const search = useQuery();
+  const navigate = useNavigate();
   const { isAuth } = useSelector((state) => state.auth);
   const { Option } = Select;
-  const { category_id } = useParams();
   const [modalType, setModalType] = useState("");
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(1);
   const [products, setProducts] = useState([]);
   const [basketId, setBasketId] = useState(-1);
-  const [category, setCategory] = useState(category_id);
   const [click, setClick] = useState(false);
   const [fav, setFav] = useState([]);
   const [currentList, setCurrentList] = useState(1);
   const [categories, setCategories] = useState([]);
   const [country, setCountry] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   const getProducts = async (filters) => {
+    setLoading(true);
     try {
-      const { data } = await GetListProduct(category, currentList, 12, filters);
+      const { data } = await GetListProduct(
+        search.get("sub_category"),
+        currentList,
+        12,
+        filters
+      );
 
       setTotal(data.total_records);
       setProducts(data.records);
@@ -50,7 +60,15 @@ const Catalog = () => {
 
   useEffect(() => {
     getProducts();
-  }, [currentList]);
+  }, [currentList, search.get("sub_category")]);
+
+  useEffect(() => {
+    if (debouncedSearchTerm) {
+      getProducts({ search: searchTerm });
+    } else {
+      getProducts();
+    }
+  }, [debouncedSearchTerm]);
 
   useEffect(() => {
     if (isAuth) {
@@ -60,8 +78,8 @@ const Catalog = () => {
   }, [isAuth, click]);
 
   useEffect(() => {
-    GetMainCategories().then((res) => {
-      setCategories(res.data.filter((el) => el.name !== "Пустая категория"));
+    GetSubCategories(search.get("category_id")).then((res) => {
+      setCategories(res.data);
     });
 
     GetCountryList()
@@ -69,7 +87,7 @@ const Catalog = () => {
       .catch((e) => {
         throw new Error(e);
       });
-  }, []);
+  }, [search.get("sub_category")]);
 
   const options = country.map((el, index) => {
     return (
@@ -108,11 +126,19 @@ const Catalog = () => {
 
           <div className={styles.catalogForm}>
             <Form className={styles.form} onFinish={onFinish}>
-              <Form.Item className={styles.formItem} name="category">
+              <Form.Item className={styles.formItem} name="subCategory">
                 <Select
                   className={styles.select}
                   placeholder="Категория препарата"
-                  onChange={(val) => setCategory(val)}
+                  onChange={(val) => {
+                    setCurrentList(1);
+                    search.set("sub_category", val);
+                    navigate(
+                      `/catalog?category_id=${search.get(
+                        "category_id"
+                      )}&sub_category=${search.get("sub_category")}`
+                    );
+                  }}
                   allowClear
                 >
                   {categoriesOption}
@@ -121,7 +147,9 @@ const Catalog = () => {
 
               <Form.Item className={styles.formItem} name="substance">
                 <Input
-                  placeholder="Действующее вещество"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="Поиск"
                   className={styles.modalInput}
                 />
               </Form.Item>

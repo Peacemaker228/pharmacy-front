@@ -98,12 +98,8 @@
   line-height: 35px;
 }
 
-.filterSearch input {
+.filterSearch {
   width: 320px !important;
-  border-radius: 100px !important;
-}
-
-.filterSearch button {
   border-radius: 100px !important;
 }
 
@@ -256,14 +252,3 @@
 }
 
 /*  */
-
-.contacts {
-  margin-top: 60px;
-  box-sizing: border-box;
-}
-
-.contactsContainer {
-  max-width: 1050px;
-  margin: 0 auto;
-  box-sizing: border-box;
-}

@@ -23,16 +23,19 @@
 }
 
 .mainForm {
-  max-width: 1050px;
-  margin: 0 auto;
   box-sizing: border-box;
   display: flex;
 }
 
-.form {
+.mainFormItem:first-child {
   width: 300px;
 }
-.form:last-of-type {
+
+.form {
+  max-width: 1050px !important;
+  margin: 0 auto !important;
+}
+.mainFormItem:last-of-type {
   margin-left: 25px;
 }
 
@@ -53,6 +56,7 @@
 }
 
 .select div {
+  width: 310px !important;
   display: flex;
   align-items: center;
   background: #ffffff;

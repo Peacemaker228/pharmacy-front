@@ -17,6 +17,7 @@ const AddToCart = ({ finalAmount }) => {
   const [basket, setBasket] = useState([]);
   const [loading, setLoading] = useState(true);
   const [price, setPrice] = useState(0);
+  const [basketId, setBasketId] = useState(0);
   const [click, setClick] = useState(false);
 
   const getBasket = async () => {
@@ -24,6 +25,7 @@ const AddToCart = ({ finalAmount }) => {
       const { data } = await GetActiveBasket();
 
       setBasket(data.basket.basket_contents);
+      setBasketId(data.basket.ID);
       setPrice(data.total_price);
     } catch (e) {
       throw new Error(e);
@@ -61,9 +63,12 @@ const AddToCart = ({ finalAmount }) => {
                     id={el.product.ID}
                     pic={el.product.img_href}
                     setClick={setClick}
+                    nums={el.count}
+                    basketId={basketId}
+                    basketContentId={el.ID}
                     title={el.product.name}
                     dose={el.product.dosage}
-                    price={`${el.product.price} ₽`}
+                    price={el.product.price}
                   />
                 );
               })
@@ -86,14 +91,16 @@ const AddToCart = ({ finalAmount }) => {
             Итоговая стоимость заказа: <span>{price} ₽</span>
           </p>
           <div className={styles.buttons}>
-            <Button
-              type="submit"
-              width="228px"
-              text="Оформить заказ"
-              fontSize="20px"
-              lineHeight="48px"
-              onClick={() => navigate("/ordermaking")}
-            />
+            {basket.length && (
+              <Button
+                type="submit"
+                width="228px"
+                text="Оформить заказ"
+                fontSize="20px"
+                lineHeight="48px"
+                onClick={() => navigate("/ordermaking")}
+              />
+            )}
             <Button
               type="submit"
               width="280px"

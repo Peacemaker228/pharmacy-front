@@ -1,21 +1,63 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../../components/Logo/Logo";
-import back from "../../assets/images/admin/admin_back.png";
 import CardAdmin from "../../components/CardAdmin/CardAdmin";
 import ModalCustom from "../../components/Modal/Modal";
-import empty from "../../assets/images/admin/empty_admin.png";
-import Empty from "../../components/Empty/Empty";
-import pic from "../../assets/images/admin/anafMini.png";
+import { GetAllOrders } from "../../services/Order/Admin/GetAllOrders";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logOut } from "../../store/reducers/AuthReducer";
+import empty from "../../assets/images/admin/empty_admin.png";
+import back from "../../assets/images/admin/admin_back.png";
+import Empty from "../../components/Empty/Empty";
 import styles from "./Admin.module.css";
+import { Spin } from "antd";
 
 const Admin = () => {
   const [visible, setVisible] = useState(false);
   const [modalType, setModalType] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [click, setClick] = useState(false);
+  const [id, setId] = useState(-1);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const getAllOrders = async () => {
+    setLoading(true);
+    try {
+      const { data } = await GetAllOrders();
+      console.log(data);
+      const orderArr = data.map((el) => {
+        return (
+          el.products !== null && [
+            ...el.products.map((elem) => {
+              return {
+                id: el.id,
+                count: elem.count,
+                data: elem.product,
+                status: el.status,
+                name: el.name,
+                surname: el.surname,
+                address: el.pharmacy_address.address,
+              };
+            }),
+          ]
+        );
+      });
+
+      const filteredOrders = orderArr.filter((el) => Array.isArray(el));
+
+      setProducts(filteredOrders.flat());
+    } catch (e) {
+      throw new Error(e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getAllOrders();
+  }, [click]);
 
   const exit = () => {
     dispatch(logOut());
@@ -52,60 +94,38 @@ const Admin = () => {
             </svg>
           </div>
           <h2>Заказы</h2>
-          <div className={styles.adminGrid}>
-            <CardAdmin
-              onClick={() => {
-                setModalType("status");
-                setVisible(true);
-              }}
-              pic={pic}
-              title="Название препарата 1"
-              dose="100 мг, 10 таб"
-              date="06.01.2022"
-              name="Иван"
-              surname="Петров"
-              patronymic="Васильевич"
-              address="б-р. Ворошилова, 44"
-              status="Ожидает оплаты"
-              price="280,90 ₽"
-              quantity="1 шт."
-            />
-            <CardAdmin
-              onClick={() => {
-                setModalType("status");
-                setVisible(true);
-              }}
-              pic={pic}
-              title="Название препарата 1"
-              dose="100 мг, 10 таб"
-              date="06.01.2022"
-              name="Иван"
-              surname="Петров"
-              patronymic="Васильевич"
-              address="б-р. Ворошилова, 44"
-              status="Ожидает оплаты"
-              price="280,90 ₽"
-              quantity="1 шт."
-            />
-            <CardAdmin
-              onClick={() => {
-                setModalType("status");
-                setVisible(true);
-              }}
-              pic={pic}
-              title="Название препарата 1"
-              dose="100 мг, 10 таб"
-              date="06.01.2022"
-              name="Иван"
-              surname="Петров"
-              patronymic="Васильевич"
-              address="б-р. Ворошилова, 44"
-              status="Ожидает оплаты"
-              price="280,90 ₽"
-              quantity="1 шт."
-            />
-          </div>
-          <Empty empty={empty} text="Еще не было ни одного заказа" />
+          {loading ? (
+            <Spin />
+          ) : (
+            <div className={styles.adminGrid}>
+              {products.length ? (
+                products.map((el, index) => {
+                  return (
+                    <CardAdmin
+                      onClick={() => {
+                        setId(el.id);
+                        setModalType("status");
+                        setVisible(true);
+                      }}
+                      key={index}
+                      pic={el.data.img_href}
+                      title={el.data.name}
+                      dose={el.data.dosage}
+                      date={el.data.CreatedAt}
+                      name={el.name}
+                      surname={el.surname}
+                      address={el.address}
+                      status={el.status}
+                      price={el.data.price}
+                      quantity={el.count}
+                    />
+                  );
+                })
+              ) : (
+                <Empty empty={empty} text="Еще не было ни одного заказа" />
+              )}
+            </div>
+          )}
         </div>
         <img src={back} alt="back" />
       </div>
@@ -116,6 +136,8 @@ const Admin = () => {
         }}
         visible={visible}
         type={modalType}
+        basketId={id}
+        setClick={setClick}
         switchType={setModalType}
         onCancel={() => {
           setModalType("");

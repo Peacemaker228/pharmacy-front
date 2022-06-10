@@ -3,13 +3,14 @@ h3 {
 }
 
 .cardMiniContainer {
-  max-width: 330px;
   margin: 0 auto;
-  padding: 32px 32px;
+  padding: 36px 32px 33px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   border: 1px solid #93b8d9;
   box-sizing: border-box;
+  cursor: pointer;
 }
 
 .main {
@@ -27,11 +28,20 @@ h3 {
 .right {
   cursor: pointer;
 }
+.right img {
+  max-width: 124px;
+  height: auto;
+  object-fit: cover;
+}
 
 .left h3 {
   font-family: "Raleway";
   font-style: normal;
   font-weight: 600;
+  text-overflow: ellipsis;
+  width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
   font-size: 18px;
   line-height: 21px;
   color: #000000;
@@ -39,6 +49,10 @@ h3 {
 }
 
 .left span {
+  text-overflow: ellipsis;
+  width: 120px;
+  overflow: hidden;
+  white-space: nowrap;
   font-family: "Raleway";
   font-style: normal;
   font-weight: 400;

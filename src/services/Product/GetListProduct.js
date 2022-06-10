@@ -1,6 +1,6 @@
 import { axiosInstance } from "../../api/api";
 
-export const GetListProduct = (category = 1, page = 1, size = 5, params) => {
+export const GetListProduct = (category = 1, page = 1, size = 6, params) => {
   let query = "";
 
   if (params) {

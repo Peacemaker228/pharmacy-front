@@ -1,6 +1,8 @@
+import { message } from "antd";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFavourite } from "../../hooks/useFavourite";
+import { UpdateBasket } from "../../services/Basket/UpdateBasket";
 import Button from "../Button/Button";
 import styles from "../Card/Card.module.css";
 
@@ -9,6 +11,7 @@ const Card = ({
   title,
   text,
   price,
+  basketId,
   onClick,
   id,
   click,
@@ -53,6 +56,7 @@ const Card = ({
               onClick={() => {
                 if (count > 0) {
                   setCount(count - 1);
+                  UpdateBasket(basketId, count);
                 }
               }}
             >
@@ -61,7 +65,10 @@ const Card = ({
             <span className={styles.counterText}>{count}</span>
             <button
               className={styles.counterBtn}
-              onClick={() => setCount(count + 1)}
+              onClick={() => {
+                setCount(count + 1);
+                UpdateBasket(basketId, count);
+              }}
             >
               +
             </button>

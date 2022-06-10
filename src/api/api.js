@@ -61,9 +61,8 @@ privateAxiosInstance.interceptors.response.use(
 
         return privateAxiosInstance.request(originalRequest);
       } catch (e) {
-        console.log("test");
-        message.error("Authorize token was expired, please login again");
         store.dispatch(logOut());
+        message.error("Authorize token was expired, please login again");
       }
     }
 

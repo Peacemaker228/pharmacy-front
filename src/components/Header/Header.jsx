@@ -14,7 +14,7 @@ import { GetActiveBasket } from "../../services/Basket/GetActiveBasket";
 import styles from "../../components/Header/Header.module.css";
 import { GetListFavorites } from "../../services/Favorites/GetListFavorites";
 
-const Header = ({ type, click }) => {
+const Header = ({ type }) => {
   const [modalType, setModalType] = useState("");
   const [visible, setVisible] = useState(false);
   const { isAuth } = useSelector((state) => state.auth);
@@ -53,22 +53,16 @@ const Header = ({ type, click }) => {
           <Logo type={type} />
           <nav className={styles.menu}>
             <ul className={styles.list}>
-              {type !== "header" ? (
-                <li className={styles.items}>
-                  <NavLink
-                    to="/catalog"
-                    className={classNames(
-                      styles.link,
-
-                      type !== "header" && styles.white
-                    )}
-                  >
-                    Каталог
-                  </NavLink>
-                </li>
-              ) : (
+              <li
+                className={classNames(
+                  styles.link,
+                  styles.items,
+                  type === "header" ? styles.blue : styles.white
+                )}
+              >
                 <Catalog type={type} />
-              )}
+              </li>
+
               <li
                 onClick={() => anchorEvent("about", navigate)}
                 className={classNames(
