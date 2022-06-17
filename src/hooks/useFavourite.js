@@ -37,7 +37,13 @@ export const useFavourite = (id, favProduct, click, setClick, iconClick) => {
   }, [favProduct, id, click, isAuth]);
 
   return (
-    <button className={styles.btnHeart} onClick={addToFav}>
+    <button
+      className={styles.btnHeart}
+      onClick={(e) => {
+        e.stopPropagation();
+        addToFav();
+      }}
+    >
       <svg
         width="23"
         height="20"

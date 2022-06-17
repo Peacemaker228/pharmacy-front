@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import BreadcrumbComponent from "../../components/Breadcrumb/Breadcrumb";
-import CardVertical from "../../components/CardVertical/CardVertical";
-import pic from "../../assets/images/my_order/anafMini.png";
-import Button from "../../components/Button/Button";
-import { useNavigate } from "react-router-dom";
-import Empty from "../../components/Empty/Empty";
-import empty from "../../assets/images/add_to_cart/empty_cart.png";
-import styles from "./AddToCart.module.css";
-import { GetActiveBasket } from "../../services/Basket/GetActiveBasket";
 import { Spin } from "antd";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import BreadcrumbComponent from "../../components/Breadcrumb/Breadcrumb";
+import CardVertical from "../../components/CardVertical/CardVertical";
+import Button from "../../components/Button/Button";
+import Empty from "../../components/Empty/Empty";
+import empty from "../../assets/images/add_to_cart/empty_cart.png";
+import pic from "../../assets/images/my_order/anafMini.png";
+import { GetActiveBasket } from "../../services/Basket/GetActiveBasket";
+import styles from "./AddToCart.module.css";
 
 const AddToCart = ({ finalAmount }) => {
   const { isAuth } = useSelector((state) => state.auth);
@@ -46,7 +46,7 @@ const AddToCart = ({ finalAmount }) => {
         <BreadcrumbComponent
           crumbs={[
             { path: "/", name: "Главная" },
-            { path: "/catalog", name: "Каталог" },
+            { path: "/catalog?category_id=1&sub_category=2", name: "Каталог" },
             { path: "", name: "Корзина" },
           ]}
         />
@@ -80,18 +80,19 @@ const AddToCart = ({ finalAmount }) => {
                 btnText="Вернуться к покупкам"
                 btnWidth="290px"
                 lineHeightBtn="50px"
-                onClickBtn={() => navigate("/catalog")}
+                onClickBtn={() =>
+                  navigate("/catalog?category_id=1&sub_category=2")
+                }
               />
             )}
           </div>
         )}
-        {/* это будет здесь? */}
         <div className={styles.create}>
           <p>
             Итоговая стоимость заказа: <span>{price} ₽</span>
           </p>
           <div className={styles.buttons}>
-            {basket.length && (
+            {basket.length !== 0 && (
               <Button
                 type="submit"
                 width="228px"
@@ -107,7 +108,7 @@ const AddToCart = ({ finalAmount }) => {
               text="Продолжить покупки"
               fontSize="20px"
               lineHeight="48px"
-              onClick={() => navigate("/catalog")}
+              onClick={() => navigate("/catalog?category_id=1&sub_category=2")}
               white={true}
               margin="0 0 0 30px"
             />

@@ -48,15 +48,22 @@ const OrderMaking = () => {
   const onFinish = (values) => {
     values.basket_id = basketId;
     values.pharmacy_address_id = selectedVal.ID;
-
+    message.loading("Заказ оформляется", 0);
     MakeOrder(values)
       .then(() => {
-        message.success("Заказ успешно создан!");
-        navigate("/");
+        setModalType("order");
+        setVisible(true);
+
+        setTimeout(() => {
+          setModalType("");
+          setVisible(false);
+          navigate("/");
+        }, 3000);
       })
       .catch(() => {
         message.error("Произошла ошибка!");
-      });
+      })
+      .finally(() => message.destroy());
   };
 
   return (
@@ -66,7 +73,10 @@ const OrderMaking = () => {
           <BreadcrumbComponent
             crumbs={[
               { path: "/", name: "Главная" },
-              { path: "/catalog", name: "Каталог" },
+              {
+                path: "/catalog?category_id=1&sub_category=2",
+                name: "Каталог",
+              },
               { path: "/cart", name: "Корзина" },
               { path: "", name: "Оформление заказа" },
             ]}

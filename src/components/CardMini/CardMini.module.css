@@ -30,7 +30,7 @@ h3 {
 }
 .right img {
   max-width: 124px;
-  height: auto;
+  max-height: 150px;
   object-fit: cover;
 }
 

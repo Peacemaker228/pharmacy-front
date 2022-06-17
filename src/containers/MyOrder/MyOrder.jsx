@@ -83,7 +83,7 @@ const MyOrder = () => {
                 btnText="Перейти в каталог"
                 btnWidth="250px"
                 lineHeightBtn="50px"
-                onClickBtn={() => navigate("/catalog")}
+                onClickBtn={() => navigate("/catalog?category_id=1&sub_category=2")}
               />
             )}
           </div>

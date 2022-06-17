@@ -5,21 +5,31 @@ import ModalCustom from "../../components/Modal/Modal";
 import { useSelector } from "react-redux";
 import { GetOwnProduct } from "../../services/Product/GetOwnProduct";
 import { useFavourite } from "../../hooks/useFavourite";
-import styles from "./Product.module.css";
 import { GetListFavorites } from "../../services/Favorites/GetListFavorites";
+import styles from "./Product.module.css";
+import { AddProduct } from "../../services/Product/AddProduct";
+import { message } from "antd";
+import { GetActiveBasket } from "../../services/Basket/GetActiveBasket";
 
 const Product = () => {
   const { id } = useParams();
-  const [count, setCount] = useState(0);
   const [visible, setVisible] = useState(false);
   const [modalType, setModalType] = useState("");
   const { isAuth } = useSelector((state) => state.auth);
   const [product, setProduct] = useState({});
   const [favProduct, setFavProduct] = useState([]);
+  const [basketId, setBasketId] = useState(0);
   const [click, setClick] = useState(false);
 
   useEffect(() => {
     if (isAuth) {
+      GetActiveBasket()
+        .then((res) => {
+          setBasketId(res.data.basket.ID);
+        })
+        .catch((e) => {
+          throw new Error(e);
+        });
       GetListFavorites()
         .then((res) => setFavProduct(res.data.map((el) => el.product_id)))
         .catch((e) => {
@@ -28,16 +38,25 @@ const Product = () => {
     }
   }, [isAuth, click]);
 
-  const fav = useFavourite(
-    id,
-    favProduct,
-    click,
-    setClick,
-    () => {
-      setModalType("");
-      setVisible(false);
+  const addToCart = async () => {
+    if (isAuth) {
+      try {
+        const res = await AddProduct(basketId, id);
+
+        message.success("Товар успешно добавлен в корзину!");
+      } catch (e) {
+        message.error("Произошла ошибка!");
+      }
+    } else {
+      setModalType("auth");
+      setVisible(true);
     }
-  );
+  };
+
+  const fav = useFavourite(id, favProduct, click, setClick, () => {
+    setModalType("");
+    setVisible(false);
+  });
 
   const getProduct = async () => {
     try {
@@ -85,30 +104,9 @@ const Product = () => {
 
           <div className={styles.buy}>
             <h2 className={styles.price}>{product.price} ₽</h2>
-            <div className={styles.counter}>
-              <button
-                className={styles.counterBtn}
-                onClick={() => {
-                  if (count > 0) {
-                    setCount(count - 1);
-                  }
-                }}
-              >
-                -
-              </button>
-              <span className={styles.counterText}>{count}</span>
-              <button
-                className={styles.counterBtn}
-                onClick={() => setCount(count + 1)}
-              >
-                +
-              </button>
-            </div>
+
             <Button
-              onClick={() => {
-                setModalType(!isAuth && "auth");
-                setVisible(!isAuth && true);
-              }}
+              onClick={addToCart}
               margin="20px 0 20px 0"
               isBasket="true"
               type="submit"

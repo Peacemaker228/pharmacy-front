@@ -12,19 +12,21 @@ const Empty = ({
   onClickBtn,
 }) => {
   return (
-    <div className={styles.empty}>
-      <img src={empty} alt="empty" />
-      <span>{text}</span>
-      {isBtn && (
-        <Button
-          type="submit"
-          fontSize="22px"
-          text={btnText}
-          width={btnWidth}
-          lineHeight={lineHeightBtn}
-          onClick={onClickBtn}
-        />
-      )}
+    <div className={styles.empty__container}>
+      <div className={styles.empty}>
+        <img src={empty} alt="empty" />
+        <span>{text}</span>
+        {isBtn && (
+          <Button
+            type="submit"
+            fontSize="22px"
+            text={btnText}
+            width={btnWidth}
+            lineHeight={lineHeightBtn}
+            onClick={onClickBtn}
+          />
+        )}
+      </div>
     </div>
   );
 };

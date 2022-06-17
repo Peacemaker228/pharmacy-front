@@ -14,7 +14,7 @@
 
 .picMain {
   max-width: 375px;
-  height: auto;
+  max-height: 450px;
   object-fit: cover;
 }
 

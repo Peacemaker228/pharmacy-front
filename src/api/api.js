@@ -58,9 +58,10 @@ privateAxiosInstance.interceptors.response.use(
         localStorage.removeItem(ACCESS_TOKEN);
         localStorage.setItem(ACCESS_TOKEN, res.data.token);
         originalRequest.headers["Authorization"] = "Bearer " + res.data.token;
-
+        originalRequest._isRetry = false;
         return privateAxiosInstance.request(originalRequest);
       } catch (e) {
+        originalRequest._isRetry = true;
         store.dispatch(logOut());
         message.error("Authorize token was expired, please login again");
       }

@@ -11,7 +11,6 @@ const Card = ({
   title,
   text,
   price,
-  basketId,
   onClick,
   id,
   click,
@@ -19,28 +18,29 @@ const Card = ({
   favProduct,
   setClick,
 }) => {
-  const [count, setCount] = useState(0);
   const navigate = useNavigate();
   const fav = useFavourite(id, favProduct, click, setClick, iconClick);
 
   return (
     <>
-      <div className={styles.card}>
+      <div
+        className={styles.card}
+        onClick={(e) => {
+          e.stopPropagation();
+          navigate(`/product/${id}`);
+        }}
+      >
         {fav}
-        <img
-          className={styles.pic}
-          src={pic}
-          alt="top_pic"
-          onClick={() => navigate(`/product/${id}`)}
-        />
-        <h3 className={styles.title} onClick={() => navigate("/product")}>
-          {title}
-        </h3>
-        <p className={styles.text}>{text.substr(0, 100)}...</p>
+        <img className={styles.pic} src={pic} alt="top_pic" />
+        <h3 className={styles.title}>{title}</h3>
+        <p className={styles.text}>{text.substr(0, 90)}...</p>
         <p className={styles.price}>{price.toFixed(2)} ₽</p>
         <div className={styles.buttons}>
           <Button
-            onClick={onClick}
+            onClick={(e) => {
+              e.stopPropagation();
+              onClick();
+            }}
             isBasket="true"
             type="submit"
             width="140px"
@@ -50,29 +50,6 @@ const Card = ({
             border="none"
             background="#136EEF "
           />
-          <div className={styles.counter}>
-            <button
-              className={styles.counterBtn}
-              onClick={() => {
-                if (count > 0) {
-                  setCount(count - 1);
-                  UpdateBasket(basketId, count);
-                }
-              }}
-            >
-              -
-            </button>
-            <span className={styles.counterText}>{count}</span>
-            <button
-              className={styles.counterBtn}
-              onClick={() => {
-                setCount(count + 1);
-                UpdateBasket(basketId, count);
-              }}
-            >
-              +
-            </button>
-          </div>
         </div>
       </div>
     </>

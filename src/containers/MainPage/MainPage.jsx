@@ -47,8 +47,6 @@ const MainPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  let i = 2;
-
   const getFeedbacks = async () => {
     try {
       const { data } = await getFeedbackList(current);
@@ -177,7 +175,6 @@ const MainPage = () => {
                       <Col span={8} key={el.ID}>
                         <Card
                           id={el.ID}
-                          basketId={basketId}
                           favProduct={fav.map((el) => el.product_id)}
                           onClick={() => {
                             if (isAuth) {
@@ -185,7 +182,9 @@ const MainPage = () => {
                                 .then(() =>
                                   message.success("Товар добавлен в корзину!")
                                 )
-                                .catch(() => message.error("Произошла ошибка!"));
+                                .catch(() =>
+                                  message.error("Произошла ошибка!")
+                                );
                             } else {
                               setModalType("auth");
                               setVisible(true);

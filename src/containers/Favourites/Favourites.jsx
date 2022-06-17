@@ -10,6 +10,7 @@ import { GetListFavorites } from "../../services/Favorites/GetListFavorites";
 import { message, Spin } from "antd";
 import { AddProduct } from "../../services/Product/AddProduct";
 import { GetActiveBasket } from "../../services/Basket/GetActiveBasket";
+import ModalCustom from "../../components/Modal/Modal";
 
 const Favourites = () => {
   const navigate = useNavigate();
@@ -24,12 +25,15 @@ const Favourites = () => {
   const addToCart = async (id) => {
     if (isAuth) {
       try {
-        const res = await AddProduct(id, basketId);
+        const res = await AddProduct(basketId, id);
 
         message.success("Товар успешно добавлен в корзину!");
       } catch (e) {
         message.error("Произошла ошибка!");
       }
+    } else {
+      setType("auth");
+      setVisible(true);
     }
   };
 
@@ -73,42 +77,55 @@ const Favourites = () => {
           <h2>Избранное</h2>
           {loading ? (
             <Spin />
-          ) : (
+          ) : products.length ? (
             <div className={styles.favouritesGrid}>
-              {products.length ? (
-                products.map((el) => (
-                  <Card
-                    key={el.ID}
-                    id={el.ID}
-                    favProduct={products.map((el) => el.ID)}
-                    click={click}
-                    pic={el.img_href}
-                    text={el.description}
-                    title={el.name}
-                    price={el.price}
-                    onClick={() => addToCart(el.ID)}
-                    setClick={setClick}
-                    iconClick={() => {
-                      setVisible(false);
-                      setType("");
-                    }}
-                  />
-                ))
-              ) : (
-                <Empty
-                  isBtn={true}
-                  empty={empty}
-                  text="В Вашем избранном пока что пусто"
-                  btnText="Перейти в каталог"
-                  btnWidth="250px"
-                  lineHeightBtn="50px"
-                  onClickBtn={() => navigate("/catalog")}
+              {products.map((el) => (
+                <Card
+                  key={el.ID}
+                  id={el.ID}
+                  favProduct={products.map((el) => el.ID)}
+                  click={click}
+                  pic={el.img_href}
+                  text={el.description}
+                  title={el.name}
+                  price={el.price}
+                  onClick={() => addToCart(el.ID)}
+                  setClick={setClick}
+                  iconClick={() => {
+                    setVisible(false);
+                    setType("");
+                  }}
                 />
-              )}
+              ))}
             </div>
+          ) : (
+            <Empty
+              isBtn={true}
+              empty={empty}
+              text="В Вашем избранном пока что пусто"
+              btnText="Перейти в каталог"
+              btnWidth="250px"
+              lineHeightBtn="50px"
+              onClickBtn={() =>
+                navigate("/catalog?category_id=1&sub_category=2")
+              }
+            />
           )}
         </div>
       </div>
+      <ModalCustom
+        closeModal={() => {
+          setType("");
+          setVisible(false);
+        }}
+        visible={visible}
+        type={type}
+        switchType={setType}
+        onCancel={() => {
+          setType("");
+          setVisible(false);
+        }}
+      />
     </>
   );
 };

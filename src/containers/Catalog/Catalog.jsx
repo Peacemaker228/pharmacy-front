@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Select, Spin } from "antd";
+import { Form, Input, message, Select, Spin } from "antd";
 import { GetListProduct } from "../../services/Product/GetListProduct";
 import { useSelector } from "react-redux";
 import { GetListFavorites } from "../../services/Favorites/GetListFavorites";
@@ -186,7 +186,13 @@ const Catalog = () => {
                           favProduct={fav.map((el) => el.product_id)}
                           onClick={() => {
                             if (isAuth) {
-                              AddProduct(basketId, el.ID);
+                              AddProduct(basketId, el.ID)
+                                .then(() =>
+                                  message.success("Товар добавлен в корзину!")
+                                )
+                                .catch(() =>
+                                  message.error("Произошла ошибка!")
+                                );
                             } else {
                               setModalType("auth");
                               setVisible(true);
